@@ -13,15 +13,17 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     $scope.counter = 5;
     $scope.timer = null;
 
-    // // Listen for any changes for new images
-    firebase.database().ref('users').child(theUser.uid).child('inbox').on('value', function(snapshot) {
+    // Listen for any changes for new images
+    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(theUser.uid).on('value', function(snapshot) {
       $timeout(function() {
         $scope.collection = snapshot.val();
       });
     });
 
+    // Message was right swiped on, open text screen
     $scope.sendTextSwipe = function(item) {
-      var recipient = {uid: item.userId, name: item.fullName};
+      var recipient = {uid: item.senderId, name: item.senderName};
+      console.log("Sending to -", recipient.name);
       TextRecipient.set(recipient);
       $state.go('sendtext');
     };

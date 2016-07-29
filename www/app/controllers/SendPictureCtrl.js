@@ -36,10 +36,12 @@ snappy.controller('SendPictureCtrl',
       $scope.usersToSendTo = value;
       $scope.usersToSendTo.forEach(function(user) {
 
-        firebase.database().ref().child('users').child(user.uid).child('inbox').push({
+        firebase.database().ref().child('picturemessages').push({
           image: $scope.imageToSend.image,
-          userId: CurrentUser.getUser().uid,
-          fullName: CurrentUser.getUser().fullName
+          senderId: CurrentUser.getUser().uid,
+          senderName: CurrentUser.getUser().fullName,
+          recipientId: user.uid,
+          recipientName: user.fullName
         });
 
       });
