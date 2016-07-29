@@ -29,9 +29,7 @@ snappy.service("Auth", function($ionicPopup, $state, FirebaseInteraction, Curren
   // Register function
   this.register = function(userEmail, userPassword, fullName) {
 
-    var registerApp = firebase.initializeApp(config, "Register");
-
-    registerApp.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function(user) {
+    firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function(user) {
 
         // Show registration success
         $ionicPopup.show({
@@ -44,9 +42,6 @@ snappy.service("Auth", function($ionicPopup, $state, FirebaseInteraction, Curren
         });
 
         FirebaseInteraction.addNewUserToFirebase(user.uid, userEmail, fullName);
-
-        // Prevent automatic login by immediately signing out
-        registerApp.auth().signOut();
 
         // Go to login page
         $state.go('login');
