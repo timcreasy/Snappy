@@ -1,0 +1,8 @@
+www/lib
+!www/lib/ionic-multiselect/dist/templates/*
+node_modules
+bower_components
+platforms
+plugins
+www/app/constants/FirebaseCreds.js
+

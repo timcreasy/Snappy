@@ -1,0 +1,29 @@
+<ion-view view-title="Log In">
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="registerPressed()">
+      Register
+    </button>
+  </ion-nav-buttons>
+  <ion-content id="loginView" scroll="false">
+
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Email</span>
+          <input type="email" placeholder="Email" ng-model="login.email">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password" ng-model="login.password">
+        </label>
+      </div>
+
+      <div class="center">
+        <a id="loginButton" ng-click='loginPressed()'>
+          <button class="button button-dark">
+            Login
+          </button>
+        </a>
+      </div>
+
+    </ion-content>
+</ion-view>

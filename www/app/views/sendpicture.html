@@ -1,0 +1,29 @@
+<ion-view view-title="Send Picture">
+  <ion-nav-buttons side="left">
+    <button class="button" ng-click="goHome()">
+      Home
+    </button>
+  </ion-nav-buttons>
+  <ion-content id="sendSnapView">
+
+    <div id="imageOutput">
+      <img id="imageToSend" class="images" ng-src="data:image/jpeg;base64,{{imageToSend.image}}">
+    </div>
+
+    <center>
+      <multiselect
+        header-text="Select Recipients"
+        items="userList"
+        text-property="fullName"
+        value-property="uid"
+        is-translate="false"
+        text="Text default multiselect"
+        modal-template-url="lib/ionic-multiselect/dist/templates/modal-template.html"
+        template-url="lib/ionic-multiselect/dist/templates/item-template.html"
+        note-text="Note Text"
+        value-changed="onValueChanged(value)">
+      </multiselect>
+    </center>
+    
+  </ion-content>
+</ion-view>

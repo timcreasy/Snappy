@@ -1,0 +1,33 @@
+<ion-view view-title="Create New Account">
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="loginPressed()">
+      Log In
+    </button>
+  </ion-nav-buttons>
+  <ion-content id="registerView" scroll="false">
+
+      <div class="list">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Email</span>
+          <input type="email" placeholder="Email" ng-model="register.email">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder="Password" ng-model="register.password">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Full Name</span>
+          <input type="text" placeholder="Full Name" ng-model="register.fullName">
+        </label>
+      </div>
+
+      <div class="center">
+        <a id="registerButton" ng-click='registerPressed()'>
+          <button class="button button-dark">
+            Register
+          </button>
+        </a>
+      </div>
+
+    </ion-content>
+</ion-view>

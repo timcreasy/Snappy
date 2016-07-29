@@ -1,0 +1,24 @@
+<ion-view view-title="Snappy">
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="logout()">
+      Log Out
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="left">
+    <button class="button" ng-click="picture()">
+      Snap
+    </button>
+  </ion-nav-buttons>
+    <ion-content id="homeView">
+
+      <div class="list">
+        <div ng-repeat="image in collection">
+          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)"class="item item-thumbnail-left">
+            <img class="images" ng-src="data:image/jpeg;base64,{{image.image}}">
+            <h1>{{image.fullName}}</h1>
+          </div>
+        </div>
+      </div>
+
+    </ion-content>
+</ion-view>

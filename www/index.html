@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Snappy</title>
+
+    <link href="css/ionic.app.css" rel="stylesheet">
+
+  </head>
+  <body ng-app="snappy">
+
+    <ion-nav-bar class="bar-stable">
+    </ion-nav-bar>
+
+    <ion-nav-view>
+    </ion-nav-view>
+
+    <!-- Dependencies -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="lib/ngstorage/ngStorage.js"></script>
+    <script src="cordova.js"></script>
+    <script src="lib/firebase/firebase.js"></script>
+    <script src="lib/ionic-multiselect/dist/ionic-multiselect.min.js"></script>
+    <script src="lib/angularfire/dist/angularfire.min.js"></script>
+
+    <!-- Application -->
+    <script src="app/app.js"></script>
+
+    <!-- Configuration -->
+    <script src="app/config/AppConfig.js"></script>
+
+    <!-- Constants -->
+    <script src="app/constants/FirebaseCreds.js"></script>
+
+    <!-- Services -->
+    <script src="app/services/FirebaseInteraction.js"></script>
+    <script src="app/services/CurrentUser.js"></script>
+    <script src="app/services/Auth.js"></script>
+    <script src="app/services/ImageToSend.js"></script>
+    <script src="app/services/TextRecipient.js"></script>
+    <script src="app/services/TextMessageService.js"></script>
+
+    <!-- Controllers -->
+    <script src="app/controllers/LoadingCtrl.js"></script>
+    <script src="app/controllers/RegisterCtrl.js"></script>
+    <script src="app/controllers/LoginCtrl.js"></script>
+    <script src="app/controllers/HomeCtrl.js"></script>
+    <script src="app/controllers/SendPictureCtrl.js"></script>
+    <script src="app/controllers/SendTextCtrl.js"></script>
+
+  </body>
+</html>
