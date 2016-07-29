@@ -12,7 +12,18 @@ snappy.controller('SendPictureCtrl',
 
     // Get all users and store in userList
     firebase.database().ref('users').once('value', function(snapshot) {
-      $scope.userList = snapshot.val();
+
+      // Remove current user from userData
+      var userData = snapshot.val();
+      var theCurrentUserKey = CurrentUser.getUser().uid;
+      for (var userKey in userData) {
+        if (userKey === theCurrentUserKey) {
+          delete userData[userKey];
+        }
+      }
+
+      $scope.userList = userData;
+
     });
 
     // Home button pressed in navbar
