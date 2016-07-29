@@ -215,7 +215,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
 
 
 
-      $scope.messages.push(message);
+      // $scope.messages.push(message);
 
       $timeout(function() {
         keepKeyboardOpen();
