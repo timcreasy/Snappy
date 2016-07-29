@@ -11,19 +11,32 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       $state.go('home');
     }
 
-    // mock acquiring data via $stateParams
+    // Sending messages to user
     $scope.toUser = {
-      _id: '534b8e5aaa5e7afc1b23e69b',
+      _id: TextRecipient.get().uid,
       pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
       username: TextRecipient.get().name
-    }
+    };
+    console.log(`Sending to  ${$scope.toUser.username} - ${$scope.toUser._id}`);
 
-    // this could be on $rootScope rather than in $stateParams
+    // Sending messages from user
     $scope.user = {
-      _id: '534b8fb2aa5e7afc1b23e69c',
+      _id: CurrentUser.getUser().uid,
       pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
       username: CurrentUser.getUser().fullName
     };
+    console.log(`Sending as ${$scope.user.username} - ${$scope.user._id}`);
+
+
+
+    // Create unique users thread string
+    var threadUsers = [$scope.toUser._id, $scope.user._id];
+    threadUsers.sort();
+    var threadString = threadUsers.join('');
+    console.log("Thread string:", threadString);
+
+
+
 
     $scope.input = {
       message: localStorage['userMessage-' + $scope.toUser._id] || ''
@@ -69,19 +82,54 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       }
     });
 
-    function getMessages() {
-      // the service is mock but you would probably pass the toUser's GUID here
-      TextMessageService.getUserMessages({
-        toUserId: $scope.toUser._id
-      }).then(function(data) {
-        $scope.doneLoading = true;
-        $scope.messages = data.messages;
+    // function getMessages() {
+    //   // the service is mock but you would probably pass the toUser's GUID here
+    //   TextMessageService.getUserMessages({
+    //     toUserId: $scope.toUser._id
+    //   }).then(function(data) {
+    //     $scope.doneLoading = true;
+    //     $scope.messages = data.messages;
+    //
+    //     $timeout(function() {
+    //       viewScroll.scrollBottom();
+    //     }, 0);
+    //   });
+    // }
 
+
+
+    function getMessages() {
+
+      firebase.database().ref('texts').child(threadString).on('value', function(snapshot) {
+
+        console.log("Messages value changed!!!!");
+        var threadMessages = snapshot.val();
+        var messagesArray = [];
+        for (var userMessage in threadMessages) {
+          // console.log(userMessage);
+          messagesArray.push(threadMessages[userMessage]);
+        }
+        $scope.messages = messagesArray;
+        console.log("messages array length:", $scope.messages.length);
         $timeout(function() {
           viewScroll.scrollBottom();
         }, 0);
       });
+
+      // the service is mock but you would probably pass the toUser's GUID here
+      // TextMessageService.getUserMessages({
+      //   toUserId: $scope.toUser._id
+      // }).then(function(data) {
+      //   $scope.doneLoading = true;
+      //   $scope.messages = data.messages;
+      //
+      //   $timeout(function() {
+      //     viewScroll.scrollBottom();
+      //   }, 0);
+      // });
     }
+
+
 
     $scope.$watch('input.message', function(newValue, oldValue) {
       console.log('input.message $watch, newValue ' + newValue);
@@ -90,10 +138,38 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     });
 
     $scope.sendMessage = function(sendMessageForm) {
+
+      // // Create unique users thread string
+      // var threadUsers = [$scope.toUser._id, $scope.user._id];
+      // threadUsers.sort();
+      // var threadString = threadUsers.join('');
+      // console.log("Thread string:", threadString);
+
+      // // Query firebase and get current snapshot of texts
+      // firebase.database().ref('texts').once('value', function(snapshot) {
+      //
+      //   var threads = snapshot.val();
+      //   var exists = false;
+      //   for (var key in threads) {
+      //     if (key === threadString) {
+      //       console.log("Thread exists!");
+      //       exists = true;
+      //     }
+      //   }
+      //
+      //   if (!exists) {
+      //     firebase.database().ref('texts').child(threadString).set(message);
+      //   }
+      //
+      // });
+
+
       var message = {
         toId: $scope.toUser._id,
         text: $scope.input.message
       };
+
+
 
       // if you do a web service call this will be needed as well as before the viewScroll calls
       // you can't see the effect of this in the browser it needs to be used on a real device
@@ -109,6 +185,36 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       message.userId = $scope.user._id;
       message.pic = $scope.user.picture;
 
+      console.log(`Sending message - ${message.text}`);
+      console.log(`Message sent from ${message.username} - ${message.userId}`);
+
+
+
+      // // Query firebase and get current snapshot of texts
+      // firebase.database().ref('texts').once('value', function(snapshot) {
+      //
+      //   var threads = snapshot.val();
+      //   var exists = false;
+      //   for (var key in threads) {
+      //     if (key === threadString) {
+      //       console.log("Thread exists!");
+      //       exists = true;
+      //     }
+      //   }
+
+        firebase.database().ref('texts/' + threadString).push({
+            recipientId: message.toId,
+            recipientName: $scope.toUser.username,
+            senderId: message.userId,
+            senderName: message.username,
+            messageText: message.text
+        });
+
+          // firebase.database().ref('texts').child(threadString).set(message);
+      // });
+
+
+
       $scope.messages.push(message);
 
       $timeout(function() {
@@ -116,11 +222,11 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
         viewScroll.scrollBottom(true);
       }, 0);
 
-      $timeout(function() {
-        $scope.messages.push(TextMessageService.getMockMessage());
-        keepKeyboardOpen();
-        viewScroll.scrollBottom(true);
-      }, 2000);
+      // $timeout(function() {
+      //   $scope.messages.push(TextMessageService.getMockMessage());
+      //   keepKeyboardOpen();
+      //   viewScroll.scrollBottom(true);
+      // }, 2000);
 
       //});
     };
