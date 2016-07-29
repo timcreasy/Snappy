@@ -7,9 +7,12 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     $ionicActionSheet,
     $ionicPopup, $ionicScrollDelegate, $timeout, $interval, TextRecipient, CurrentUser, TextMessageService) {
 
+
+    // Home button pressed
     $scope.goHome = function() {
       $state.go('home');
     }
+
 
     // Sending messages to user
     $scope.toUser = {
@@ -17,7 +20,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
       username: TextRecipient.get().name
     };
-    console.log(`Sending to  ${$scope.toUser.username} - ${$scope.toUser._id}`);
+
 
     // Sending messages from user
     $scope.user = {
@@ -25,8 +28,6 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
       username: CurrentUser.getUser().fullName
     };
-    console.log(`Sending as ${$scope.user.username} - ${$scope.user._id}`);
-
 
 
     // Create unique users thread string
@@ -36,19 +37,20 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     console.log("Thread string:", threadString);
 
 
-
-
+    // Input object
     $scope.input = {
       message: localStorage['userMessage-' + $scope.toUser._id] || ''
     };
 
-    var messageCheckTimer;
 
+    var messageCheckTimer;
     var viewScroll = $ionicScrollDelegate.$getByHandle('userMessageScroll');
     var footerBar; // gets set in $ionicView.enter
     var scroller;
     var txtInput; // ^^^
 
+
+    // View entered
     $scope.$on('$ionicView.enter', function() {
       console.log('UserMessages $ionicView.enter');
       cordova.plugins.Keyboard.disableScroll(true);
@@ -66,6 +68,8 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       }, 20000);
     });
 
+
+    // View left
     $scope.$on('$ionicView.leave', function() {
       cordova.plugins.Keyboard.disableScroll(false);
       console.log('leaving UserMessages view, destroying interval');
@@ -76,159 +80,79 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       }
     });
 
+
+    // View about to leave
     $scope.$on('$ionicView.beforeLeave', function() {
       if (!$scope.input.message || $scope.input.message === '') {
         localStorage.removeItem('userMessage-' + $scope.toUser._id);
       }
     });
 
-    // function getMessages() {
-    //   // the service is mock but you would probably pass the toUser's GUID here
-    //   TextMessageService.getUserMessages({
-    //     toUserId: $scope.toUser._id
-    //   }).then(function(data) {
-    //     $scope.doneLoading = true;
-    //     $scope.messages = data.messages;
-    //
-    //     $timeout(function() {
-    //       viewScroll.scrollBottom();
-    //     }, 0);
-    //   });
-    // }
 
-
-
+    // Loads messages for relevant thread
     function getMessages() {
 
       firebase.database().ref('texts').child(threadString).on('value', function(snapshot) {
 
-        console.log("Messages value changed!!!!");
+        // Get messages and push into array
         var threadMessages = snapshot.val();
         var messagesArray = [];
         for (var userMessage in threadMessages) {
-          // console.log(userMessage);
           messagesArray.push(threadMessages[userMessage]);
         }
+
+        // Add messages to $scope.messages, scroll to bottom
         $scope.messages = messagesArray;
-        console.log("messages array length:", $scope.messages.length);
         $timeout(function() {
           viewScroll.scrollBottom();
         }, 0);
       });
-
-      // the service is mock but you would probably pass the toUser's GUID here
-      // TextMessageService.getUserMessages({
-      //   toUserId: $scope.toUser._id
-      // }).then(function(data) {
-      //   $scope.doneLoading = true;
-      //   $scope.messages = data.messages;
-      //
-      //   $timeout(function() {
-      //     viewScroll.scrollBottom();
-      //   }, 0);
-      // });
     }
 
 
-
+    // Fires upon any change to message input
     $scope.$watch('input.message', function(newValue, oldValue) {
       console.log('input.message $watch, newValue ' + newValue);
       if (!newValue) newValue = '';
       localStorage['userMessage-' + $scope.toUser._id] = newValue;
     });
 
+
+    // Message send pressed
     $scope.sendMessage = function(sendMessageForm) {
 
-      // // Create unique users thread string
-      // var threadUsers = [$scope.toUser._id, $scope.user._id];
-      // threadUsers.sort();
-      // var threadString = threadUsers.join('');
-      // console.log("Thread string:", threadString);
-
-      // // Query firebase and get current snapshot of texts
-      // firebase.database().ref('texts').once('value', function(snapshot) {
-      //
-      //   var threads = snapshot.val();
-      //   var exists = false;
-      //   for (var key in threads) {
-      //     if (key === threadString) {
-      //       console.log("Thread exists!");
-      //       exists = true;
-      //     }
-      //   }
-      //
-      //   if (!exists) {
-      //     firebase.database().ref('texts').child(threadString).set(message);
-      //   }
-      //
-      // });
-
-
+      // Build up message object
       var message = {
         toId: $scope.toUser._id,
         text: $scope.input.message
       };
 
-
-
-      // if you do a web service call this will be needed as well as before the viewScroll calls
-      // you can't see the effect of this in the browser it needs to be used on a real device
-      // for some reason the one time blur event is not firing in the browser but does on devices
+      // Keeps keyboard open through sending
       keepKeyboardOpen();
 
-      //MockService.sendMessage(message).then(function(data) {
+      // Clear input field
       $scope.input.message = '';
 
-      message._id = new Date().getTime(); // :~)
-      message.date = new Date();
+      // Add to message object
       message.username = $scope.user.username;
       message.userId = $scope.user._id;
-      message.pic = $scope.user.picture;
+      // message.pic = $scope.user.picture;
 
-      console.log(`Sending message - ${message.text}`);
-      console.log(`Message sent from ${message.username} - ${message.userId}`);
+      // Add message to firebase
+      firebase.database().ref('texts/' + threadString).push({
+          recipientId: message.toId,
+          recipientName: $scope.toUser.username,
+          senderId: message.userId,
+          senderName: message.username,
+          messageText: message.text
+      });
 
-
-
-      // // Query firebase and get current snapshot of texts
-      // firebase.database().ref('texts').once('value', function(snapshot) {
-      //
-      //   var threads = snapshot.val();
-      //   var exists = false;
-      //   for (var key in threads) {
-      //     if (key === threadString) {
-      //       console.log("Thread exists!");
-      //       exists = true;
-      //     }
-      //   }
-
-        firebase.database().ref('texts/' + threadString).push({
-            recipientId: message.toId,
-            recipientName: $scope.toUser.username,
-            senderId: message.userId,
-            senderName: message.username,
-            messageText: message.text
-        });
-
-          // firebase.database().ref('texts').child(threadString).set(message);
-      // });
-
-
-
-      // $scope.messages.push(message);
-
+      // Scroll page to bottom
       $timeout(function() {
         keepKeyboardOpen();
         viewScroll.scrollBottom(true);
       }, 0);
 
-      // $timeout(function() {
-      //   $scope.messages.push(TextMessageService.getMockMessage());
-      //   keepKeyboardOpen();
-      //   viewScroll.scrollBottom(true);
-      // }, 2000);
-
-      //});
     };
 
     // this keeps the keyboard open on a device only after sending a message, it is non obtrusive
@@ -299,94 +223,6 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
 
 }])
 
-// // services
-// .factory('MockService', ['$http', '$q',
-//   function($http, $q) {
-//     var me = {};
-//
-//     me.getUserMessages = function(d) {
-//       /*
-//       var endpoint =
-//         'http://www.mocky.io/v2/547cf341501c337f0c9a63fd?callback=JSON_CALLBACK';
-//       return $http.jsonp(endpoint).then(function(response) {
-//         return response.data;
-//       }, function(err) {
-//         console.log('get user messages error, err: ' + JSON.stringify(
-//           err, null, 2));
-//       });
-//       */
-//       var deferred = $q.defer();
-//
-// 		 setTimeout(function() {
-//       	deferred.resolve(getMockMessages());
-// 	    }, 1500);
-//
-//       return deferred.promise;
-//     };
-//
-//     me.getMockMessage = function() {
-//       return {
-//         userId: '534b8e5aaa5e7afc1b23e69b',
-//         date: new Date(),
-//         text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-//       };
-//     }
-//
-//     return me;
-//   }
-// ])
-//
-// // fitlers
-// .filter('nl2br', ['$filter',
-//   function($filter) {
-//     return function(data) {
-//       if (!data) return data;
-//       return data.replace(/\n\r?/g, '<br />');
-//     };
-//   }
-// ])
-//
-// // directives
-// .directive('autolinker', ['$timeout',
-//   function($timeout) {
-//     return {
-//       restrict: 'A',
-//       link: function(scope, element, attrs) {
-//         $timeout(function() {
-//           var eleHtml = element.html();
-//
-//           if (eleHtml === '') {
-//             return false;
-//           }
-//
-//           var text = Autolinker.link(eleHtml, {
-//             className: 'autolinker',
-//             newWindow: false
-//           });
-//
-//           element.html(text);
-//
-//           var autolinks = element[0].getElementsByClassName('autolinker');
-//
-//           for (var i = 0; i < autolinks.length; i++) {
-//             angular.element(autolinks[i]).bind('click', function(e) {
-//               var href = e.target.href;
-//               console.log('autolinkClick, href: ' + href);
-//
-//               if (href) {
-//                 //window.open(href, '_system');
-//                 window.open(href, '_blank');
-//               }
-//
-//               e.preventDefault();
-//               return false;
-//             });
-//           }
-//         }, 0);
-//       }
-//     }
-//   }
-// ])
 
 function onProfilePicError(ele) {
   this.ele.src = ''; // set a fallback
