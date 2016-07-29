@@ -42,6 +42,11 @@ snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds){
       url:'/sendtext',
       templateUrl: 'app/views/sendtext.html',
       controller: 'SendTextCtrl'
+  })
+  .state('snapmap',{
+      url:'/snapmap',
+      templateUrl: 'app/views/snapmap.html',
+      controller: 'SnapMapCtrl'
   });
   $urlRouterProvider.otherwise('/');
 });

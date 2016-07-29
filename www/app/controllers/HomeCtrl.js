@@ -8,6 +8,11 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     // If logged in go to home, otherwise, back to login
     if (theUser) {
 
+
+    $scope.mapit = function() {
+      $state.go('snapmap');
+    }
+
     // // Timer vars
     $scope.timerActive = false;
     $scope.counter = 5;
