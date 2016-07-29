@@ -38,7 +38,8 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
 
     $scope.$on('$ionicView.enter', function() {
       console.log('UserMessages $ionicView.enter');
-
+      cordova.plugins.Keyboard.disableScroll(true);
+      // cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       getMessages();
 
       $timeout(function() {
@@ -53,6 +54,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     });
 
     $scope.$on('$ionicView.leave', function() {
+      cordova.plugins.Keyboard.disableScroll(false);
       console.log('leaving UserMessages view, destroying interval');
       // Make sure that the interval is destroyed
       if (angular.isDefined(messageCheckTimer)) {
@@ -170,6 +172,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
         // go to other users profile
       }
     };
+
 
     // I emit this event from the monospaced.elastic directive, read line 480
     $scope.$on('taResize', function(e, ta) {
