@@ -97,6 +97,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
         // Get messages and push into array
         var threadMessages = snapshot.val();
         var messagesArray = [];
+
         for (var userMessage in threadMessages) {
           messagesArray.push(threadMessages[userMessage]);
         }
