@@ -294,8 +294,21 @@ a.autolinker {
 
 .markerContainer img {
     max-width:250px;
-    // max-height:250px;
-    // width: 250px;
-    // height: 250px;
     border:1px solid #000;
+}
+
+#snapFooter {
+  height: 80px;
+  // background-color:rgba(0,0,0,0) !important;
+  // border-color: rgba(0,0,0,0) !important;
+}
+
+i.icon.ion-ios-camera {
+  font-size: 80px;
+  padding-left: 15px;
+  padding-right:15px;
+}
+
+#snapButton.title {
+  height: 90px
 }
