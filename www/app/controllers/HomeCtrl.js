@@ -2,6 +2,7 @@
 
 snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient) {
 
+
   // On auth state change
   firebase.auth().onAuthStateChanged(function(theUser) {
 
@@ -11,6 +12,11 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     $scope.mapit = function() {
       $state.go('snapmap');
+      window.plugins.nativepagetransitions.slide(
+        {"direction": "left"},
+        function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+        function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+      );
     }
 
     // // Timer vars
@@ -31,6 +37,11 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       console.log("Sending to -", recipient.name);
       TextRecipient.set(recipient);
       $state.go('sendtext');
+      window.plugins.nativepagetransitions.slide(
+        {"direction": "right"},
+        function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+        function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+      );
     };
 
     // Logout button pressed in nav bar
@@ -62,6 +73,11 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
           fullName: CurrentUser.getUser().fullName
         });
         $state.go('sendpicture');
+        window.plugins.nativepagetransitions.slide(
+          {"direction": "up"},
+          function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+          function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+        );
       }, function(err) {
         // error
       });

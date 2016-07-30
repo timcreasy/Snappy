@@ -1,6 +1,10 @@
 "use strict";
 
-snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds){
+snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds, $ionicConfigProvider){
+
+  $ionicConfigProvider.views.maxCache('0');
+  $ionicConfigProvider.views.transition('none');
+  $ionicConfigProvider.views.swipeBackEnabled(false);
 
   // Configure Firebase
   var authConfig = {
