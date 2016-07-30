@@ -5,11 +5,11 @@
     </button>
   </ion-nav-buttons>
   <ion-nav-buttons side="left">
-    <button class="button" ng-click="picture()">
-      Snap
+    <button class="button" ng-click="mapit()">
+      Snaptivity
     </button>
   </ion-nav-buttons>
-    <ion-content id="homeView">
+    <ion-content id="homeView" class="has-footer">
 
       <div class="list">
         <div ng-repeat="image in collection">
@@ -21,4 +21,9 @@
       </div>
 
     </ion-content>
+    <ion-footer-bar align-title="center" class="bar-stable" id="snapFooter">
+        <div class="title" id="snapButton">
+          <i ng-click="picture()" class="icon ion-ios-camera"></i>
+        </div>
+      </ion-footer-bar>
 </ion-view>

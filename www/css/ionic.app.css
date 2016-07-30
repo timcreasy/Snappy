@@ -10026,3 +10026,28 @@ a.autolinker {
 
 #textMessageInput {
   width: 306px; }
+
+.scroll {
+  height: 100%; }
+
+#map {
+  width: 100%;
+  height: 100%; }
+
+.markerContainer {
+  text-align: center; }
+
+.markerContainer img {
+  max-width: 250px;
+  border: 1px solid #000; }
+
+#snapFooter {
+  height: 80px; }
+
+i.icon.ion-ios-camera {
+  font-size: 80px;
+  padding-left: 15px;
+  padding-right: 15px; }
+
+#snapButton.title {
+  height: 90px; }

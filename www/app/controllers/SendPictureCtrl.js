@@ -1,7 +1,7 @@
 "use strict";
 
 snappy.controller('SendPictureCtrl',
-  function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser) {
+  function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation) {
 
     // Get image to send
     $scope.imageToSend = ImageToSend.get();
@@ -33,20 +33,37 @@ snappy.controller('SendPictureCtrl',
 
     // Values selected in user select, send image
     $scope.onValueChanged = function(value){
-      $scope.usersToSendTo = value;
-      $scope.usersToSendTo.forEach(function(user) {
 
-        firebase.database().ref().child('picturemessages').push({
-          image: $scope.imageToSend.image,
-          senderId: CurrentUser.getUser().uid,
-          senderName: CurrentUser.getUser().fullName,
-          recipientId: user.uid,
-          recipientName: user.fullName
+
+      var posOptions = {timeout: 10000, enableHighAccuracy: false};
+      $cordovaGeolocation.getCurrentPosition(posOptions).then(function (position) {
+          var currentLat  = position.coords.latitude;
+          var currentLong = position.coords.longitude;
+
+
+
+          $scope.usersToSendTo = value;
+          $scope.usersToSendTo.forEach(function(user) {
+
+            firebase.database().ref().child('picturemessages').push({
+              image: $scope.imageToSend.image,
+              senderId: CurrentUser.getUser().uid,
+              senderName: CurrentUser.getUser().fullName,
+              recipientId: user.uid,
+              recipientName: user.fullName,
+              lat: currentLat,
+              long: currentLong
+            });
+
+          });
+
+          $state.go('home');
+
+
+
+        }, function(err) {
+          console.log("GPS error", err);
         });
-
-      });
-
-      $state.go('home');
 
     };
 });

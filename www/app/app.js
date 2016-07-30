@@ -4,8 +4,16 @@ var snappy = angular.module('snappy', ['ionic','ngCordova', 'firebase', 'ngStora
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+
+    // then override any default you want
+    window.plugins.nativepagetransitions.globalOptions.duration = 250;
+    window.plugins.nativepagetransitions.globalOptions.iosdelay = 60;
+    window.plugins.nativepagetransitions.globalOptions.slowdownfactor = 4;
+    window.plugins.nativepagetransitions.globalOptions.fixedPixelsTop = 63;
+    window.plugins.nativepagetransitions.globalOptions.fixedPixelsBottom = 0;
+
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
-      // cordova.plugins.Keyboard.disableScroll(true);
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
     if(window.StatusBar) {
