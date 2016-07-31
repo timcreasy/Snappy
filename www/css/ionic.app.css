@@ -9818,6 +9818,10 @@ a.button {
 .images {
   width: 50%; }
 
+#loadingView {
+  display: table-cell;
+  vertical-align: middle; }
+
 #homeView {
   text-align: center; }
 
@@ -10051,3 +10055,12 @@ i.icon.ion-ios-camera {
 
 #snapButton.title {
   height: 90px; }
+
+#penColorButton {
+  margin-right: 7px; }
+
+#recipientButton {
+  margin-top: 4px; }
+
+#drawCanvas {
+  width: 384px; }

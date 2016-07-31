@@ -4,20 +4,17 @@
       Home
     </button>
   </ion-nav-buttons>
-  <ion-content id="sendSnapView">
+  <ion-content scroll="false" id="sendSnapView">
 
-    <canvas id='drawCanvas' width='375' height='490' style='border: 1px solid black;'></canvas>
-    <div class='button-bar'>
-      <a class='button button-energized' ng-click='clearCanvas()'>Clear</a>
-      <!-- <a class='button button-balanced' ng-click='saveCanvas()'>Save</a> -->
+    <!-- <canvas id='drawCanvas' width='375' height='490' style='border: 1px solid black;'></canvas> -->
+    <canvas id='drawCanvas' width='375' height='490'></canvas>
+
+    <div class="center">
+      <button id="penColorButton" class="button icon ion-edit" color-picker ng-model="testColors.first" modal-title="Choose a color" color-box="{{testColors.first}}"></button>
+      <button class="button button-energized" ng-click='clearCanvas()'>Clear</button>
     </div>
-    <br>
 
-    <button class="button icon ion-edit" color-picker ng-model="testColors.first" modal-title="Choose a color" color-box="{{testColors.first}}">
-        <!-- {{ testColors.first || 'Choose a color' }} -->
-    </button>
-
-    <center>
+    <center id="recipientButton">
       <multiselect
         header-text="Select Recipients"
         items="userList"
