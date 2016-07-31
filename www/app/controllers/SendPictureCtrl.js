@@ -3,11 +3,21 @@
 snappy.controller('SendPictureCtrl',
   function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation, $http, FirebaseCreds) {
 
+    // Set initial pen color to be black
+    $scope.testColors = {
+     first : "#000000"
+   }
+
     // Get image to send
     $scope.imageToSend = ImageToSend.get();
 
     var canvas = document.getElementById('drawCanvas');
     var drawArea = new SignaturePad(canvas);
+
+    // Listen for any changes to color selection, and change penColor
+    $scope.$watch('testColors.first', function() {
+      drawArea.penColor = $scope.testColors.first;
+    });
 
     $scope.clearCanvas = function() {
       drawArea.clear();
@@ -18,11 +28,6 @@ snappy.controller('SendPictureCtrl',
       };
       image.src = `data:image/jpeg;base64,${$scope.imageToSend.image}`;
     }
-
-    // $scope.saveCanvas = function() {
-    //   var drawImg = drawArea.toDataURL();
-    //   $scope.drawing = drawImg;
-    // }
 
     var ctx = canvas.getContext("2d");
     var image = new Image();
