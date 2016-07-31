@@ -1,6 +1,6 @@
 "use strict";
 
-var snappy = angular.module('snappy', ['ionic','ngCordova', 'firebase', 'ngStorage', 'ionic-multiselect', 'monospaced.elastic'])
+var snappy = angular.module('snappy', ['ionic','ngCordova', 'firebase', 'ngStorage', 'ionic-multiselect', 'monospaced.elastic', 'farbtastic'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

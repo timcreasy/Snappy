@@ -6,17 +6,12 @@
   </ion-nav-buttons>
   <ion-content id="sendSnapView">
 
-    <!-- <div id="imageOutput">
-      <img id="imageToSend" class="images" ng-src="data:image/jpeg;base64,{{imageToSend.image}}">
-    </div> -->
-
     <canvas id='drawCanvas' width='375' height='490' style='border: 1px solid black;'></canvas>
     <div class='button-bar'>
       <a class='button button-energized' ng-click='clearCanvas()'>Clear</a>
-      <a class='button button-balanced' ng-click='saveCanvas()'>Save</a>
+      <!-- <a class='button button-balanced' ng-click='saveCanvas()'>Save</a> -->
     </div>
     <br>
-    <img ng-src='{{drawing}}'/>
 
     <center>
       <multiselect

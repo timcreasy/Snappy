@@ -19,10 +19,10 @@ snappy.controller('SendPictureCtrl',
       image.src = `data:image/jpeg;base64,${$scope.imageToSend.image}`;
     }
 
-    $scope.saveCanvas = function() {
-      var drawImg = drawArea.toDataURL();
-      $scope.drawing = drawImg;
-    }
+    // $scope.saveCanvas = function() {
+    //   var drawImg = drawArea.toDataURL();
+    //   $scope.drawing = drawImg;
+    // }
 
     var ctx = canvas.getContext("2d");
     var image = new Image();
@@ -65,18 +65,21 @@ snappy.controller('SendPictureCtrl',
           var currentLat  = position.coords.latitude;
           var currentLong = position.coords.longitude;
 
-
-
-          $scope.usersToSendTo = value;
-          $scope.usersToSendTo.forEach(function(user) {
-
           var imgToSend = null;
-          if ($scope.drawing) {
-            var getImage = $scope.drawing.split(',');
+
+          // If there is a drawing
+          if (!drawArea.isEmpty()) {
+
+            var drawImg = drawArea.toDataURL();
+            var getImage = drawImg.split(',');
             imgToSend = getImage[1];
+
           } else {
             imgToSend = $scope.imageToSend.image;
           }
+
+          $scope.usersToSendTo = value;
+          $scope.usersToSendTo.forEach(function(user) {
 
             firebase.database().ref().child('picturemessages').push({
               image: imgToSend,
