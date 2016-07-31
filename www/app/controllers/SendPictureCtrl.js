@@ -1,10 +1,35 @@
 "use strict";
 
 snappy.controller('SendPictureCtrl',
-  function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation) {
+  function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation, $http, FirebaseCreds) {
 
     // Get image to send
     $scope.imageToSend = ImageToSend.get();
+
+    var canvas = document.getElementById('drawCanvas');
+    var drawArea = new SignaturePad(canvas);
+
+    $scope.clearCanvas = function() {
+      drawArea.clear();
+      var ctx = canvas.getContext("2d");
+      var image = new Image();
+      image.onload = function() {
+          ctx.drawImage(image, 0, 0);
+      };
+      image.src = `data:image/jpeg;base64,${$scope.imageToSend.image}`;
+    }
+
+    $scope.saveCanvas = function() {
+      var drawImg = drawArea.toDataURL();
+      $scope.drawing = drawImg;
+    }
+
+    var ctx = canvas.getContext("2d");
+    var image = new Image();
+    image.onload = function() {
+        ctx.drawImage(image, 0, 0);
+    };
+    image.src = `data:image/jpeg;base64,${$scope.imageToSend.image}`;
 
     // User objects
     $scope.userList = null;
@@ -45,8 +70,16 @@ snappy.controller('SendPictureCtrl',
           $scope.usersToSendTo = value;
           $scope.usersToSendTo.forEach(function(user) {
 
+          var imgToSend = null;
+          if ($scope.drawing) {
+            var getImage = $scope.drawing.split(',');
+            imgToSend = getImage[1];
+          } else {
+            imgToSend = $scope.imageToSend.image;
+          }
+
             firebase.database().ref().child('picturemessages').push({
-              image: $scope.imageToSend.image,
+              image: imgToSend,
               senderId: CurrentUser.getUser().uid,
               senderName: CurrentUser.getUser().fullName,
               recipientId: user.uid,

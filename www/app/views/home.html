@@ -14,7 +14,7 @@
       <div class="list">
         <div ng-repeat="image in collection">
           <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)"class="item item-thumbnail-left">
-            <img class="images" ng-src="data:image/jpeg;base64,{{image.image}}">
+            <img class="images" ng-src="data:image/png;base64,{{image.image}}">
             <h1>{{image.senderName}}</h1>
           </div>
         </div>

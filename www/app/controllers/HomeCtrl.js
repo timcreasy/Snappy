@@ -58,9 +58,9 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
         destinationType: Camera.DestinationType.DATA_URL,
         sourceType: Camera.PictureSourceType.CAMERA,
         allowEdit: false,
-        encodingType: Camera.EncodingType.JPEG,
-        targetWidth: 1080,
-        targetHeight: 1920,
+        encodingType: Camera.EncodingType.PNG,
+        targetWidth: 375,
+        targetHeight: 490,
         popoverOptions: CameraPopoverOptions,
         saveToPhotoAlbum: false,
   	    correctOrientation:true

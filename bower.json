@@ -12,6 +12,7 @@
     "ngstorage": "^0.3.10",
     "angularfire": "^2.0.1",
     "angular-elastic": "^2.5.1",
-    "angular-moment": "^0.10.3"
+    "angular-moment": "^0.10.3",
+    "signature_pad": "^1.5.3"
   }
 }

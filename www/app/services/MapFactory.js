@@ -61,7 +61,7 @@ snappy.factory('MapFactory', function($cordovaGeolocation, PictureMarkers){
           });
 
           // var infoWindowContent = "<h4>Sent to: " + record.recipientName + "</h4>";
-          var infoWindowContent = `<div class="markerContainer"> 
+          var infoWindowContent = `<div class="markerContainer">
                                     <h4>Sent to: ${record.recipientName}</h4>
                                     <img class="markerImage" alt="Sent image" src="data:image/png;base64,${record.image}"/>
                                    </div>`;
