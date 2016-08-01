@@ -10090,3 +10090,20 @@ i.icon.ion-ios-camera {
   width: 100vw;
   height: 190vw;
   z-index: 900; }
+
+#profileImageDisplay {
+  display: block;
+  border-radius: 50%;
+  height: 90px;
+  width: 90px;
+  margin: 0 auto;
+  margin-bottom: 10px; }
+
+#pictureButtons {
+  display: block;
+  text-align: center;
+  margin-bottom: 10px; }
+
+#registerButtonContainer {
+  display: block;
+  text-align: center; }

@@ -4,7 +4,7 @@
       Log In
     </button>
   </ion-nav-buttons>
-  <ion-content id="registerView" scroll="false">
+  <ion-content id="registerView" scroll="false">  
 
       <div class="list">
         <label class="item item-input item-stacked-label">
@@ -21,7 +21,21 @@
         </label>
       </div>
 
-      <div class="center">
+      <!-- <img id="profileImageDisplay" class="center" ng-show="profilePicture" ng-src="{{profilePicture}}"> -->
+      <img id="profileImageDisplay" class="center" ng-src="{{profilePicture && profilePicture || 'img/NoUser.png'}}">
+      <div id="pictureButtons" class="center">
+        <a id="choosePictureButton" ng-click='getProfilePicture()'>
+          <button class="button button-dark">
+            Choose Photo
+          </button>
+        </a>
+        <a id="takePictureButton" ng-click='takeProfilePicture()'>
+          <button class="button button-dark">
+            Take Photo
+          </button>
+        </a>
+      </div>
+      <div id="registerButtonContainer" class="center"
         <a id="registerButton" ng-click='registerPressed()'>
           <button class="button button-dark">
             Register
