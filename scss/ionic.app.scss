@@ -330,6 +330,34 @@ i.icon.ion-ios-camera {
  background-color: #e0e0e0;
 }
 
-.counterIcon {
+.relativePositioning {
+  position: relative;
+}
+
+.snapBox {
   background-color: blue;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  max-width: 40px;
+  max-height: 40px;
+  width: 100%;
+  height: 100%;
+  z-index: 49;
+}
+//
+.counterIcon {
+  z-index: 50 !important;
+}
+
+#testModal {
+    background-color: blue;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    // max-width: 100vw;
+    // max-height: 100vh;
+    width: 100vw;
+    height: 190vw;
+    z-index: 900;
 }

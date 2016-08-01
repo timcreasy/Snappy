@@ -1,6 +1,8 @@
-"use strict";
+// "use strict";
 
 snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient) {
+
+  $scope.showTestModal = false;
 
 
   // On auth state change
@@ -8,7 +10,6 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     // If logged in go to home, otherwise, back to login
     if (theUser) {
-
 
     $scope.mapit = function() {
       $state.go('snapmap');
