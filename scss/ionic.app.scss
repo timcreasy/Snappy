@@ -25,13 +25,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   width: 50%;
 }
 
-#loadingView {
-  display: table-cell;
-  vertical-align: middle;
-}
-
 #homeView {
   text-align: center;
+  height: calc(100% - 144px);
 }
 
 

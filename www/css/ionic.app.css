@@ -9818,12 +9818,9 @@ a.button {
 .images {
   width: 50%; }
 
-#loadingView {
-  display: table-cell;
-  vertical-align: middle; }
-
 #homeView {
-  text-align: center; }
+  text-align: center;
+  height: calc(100% - 144px); }
 
 #snapImage {
   width: 100%; }
