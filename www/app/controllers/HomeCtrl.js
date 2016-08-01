@@ -110,16 +110,21 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
                     <h1 id="counterOutput">${$scope.counter}</h1>
                     <img id="snapImage" src="${sourceString}">
                    </div>`;
-      $scope.show(img);
 
+      if (selected.disabled === true) {
+        console.log("IMAGE DISABLED");
+      } else {
 
       // If there is not a timer active, start a new timer
       if(!$scope.timerActive) {
+        $scope.show(img);
         $scope.timerActive = true;
         $scope.timer = $interval(function () {
           if($scope.counter == 1) {
             $interval.cancel($scope.timer);
             $scope.hide();
+            console.log("Hiding:", selected);
+            disableImage(selected);
             $scope.counter = 5;
             $scope.timerActive = false;
           } else {
@@ -130,11 +135,17 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
         }, 1000);
       }
 
+      }
+
     };
 
     // Logic for when image released
     $scope.imageReleased = function() {
       $scope.hide();
+    };
+
+    function disableImage(imageObj) {
+      imageObj.disabled = true;
     };
 
   }});

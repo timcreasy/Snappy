@@ -87,6 +87,7 @@ snappy.controller('SendPictureCtrl',
           $scope.usersToSendTo.forEach(function(user) {
 
             firebase.database().ref().child('picturemessages').push({
+              disabled: false,
               image: imgToSend,
               senderId: CurrentUser.getUser().uid,
               senderName: CurrentUser.getUser().fullName,

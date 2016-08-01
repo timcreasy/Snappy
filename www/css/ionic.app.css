@@ -10061,3 +10061,6 @@ i.icon.ion-ios-camera {
 
 #drawCanvas {
   width: 384px; }
+
+.disabledSnap {
+  background-color: #e0e0e0; }
