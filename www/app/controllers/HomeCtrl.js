@@ -21,7 +21,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     // // Timer vars
     $scope.timerActive = false;
-    $scope.counter = 5;
+    $scope.counter = 10;
     $scope.timer = null;
 
     // Listen for any changes for new images
@@ -104,6 +104,11 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     // Logic for when image is held
     $scope.imageHeld = function(selected) {
 
+      // Set selectedImage
+      if (!$scope.timerActive) {
+        $scope.selectedImage = selected;
+      }
+
       // Show selected image
       var sourceString = 'data:image/jpeg;base64,' + selected.image;
       var img = `<div id="overlay">
@@ -125,14 +130,18 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
             $scope.hide();
             console.log("Hiding:", selected);
             disableImage(selected);
-            $scope.counter = 5;
+            $scope.counter = 10;
             $scope.timerActive = false;
+            // Reset selectedImage
+            $scope.selectedImage = null;
           } else {
             $scope.counter--;
             console.log($scope.counter);
             document.getElementById('counterOutput').innerHTML = $scope.counter;
           }
         }, 1000);
+      } else if ($scope.timerActive && $scope.selectedImage === selected) {
+        $scope.show(img);
       }
 
       }
