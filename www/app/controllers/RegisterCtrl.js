@@ -70,6 +70,11 @@ snappy.controller('RegisterCtrl',
     // Login button pressed in navbar
     $scope.loginPressed = function() {
       $state.go('login');
+      window.plugins.nativepagetransitions.slide(
+        {"direction": "right"},
+        function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+        function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+      );
     };
 
     // Register object model for inputs
