@@ -1,7 +1,7 @@
 "use strict";
 
 snappy.controller('SendPictureCtrl',
-  function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation, $http, FirebaseCreds) {
+  function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation, $http, FirebaseCreds, Timestamp) {
 
     // Set initial pen color to be black
     $scope.testColors = {
@@ -91,8 +91,8 @@ snappy.controller('SendPictureCtrl',
           $scope.usersToSendTo = value;
           $scope.usersToSendTo.forEach(function(user) {
 
-            // console.log("UNIQUE KEY: ", uuid.v4());
             var uniqueKey = uuid.v4();
+            var messageTimestamp = Timestamp.get();
 
             firebase.database().ref().child('picturemessages').child(uniqueKey).set({
               disabled: false,
@@ -103,7 +103,8 @@ snappy.controller('SendPictureCtrl',
               recipientName: user.fullName,
               lat: currentLat,
               long: currentLong,
-              id: uniqueKey
+              id: uniqueKey,
+              timestamp: messageTimestamp
             });
 
           });
