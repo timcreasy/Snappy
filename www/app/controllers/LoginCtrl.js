@@ -18,7 +18,7 @@ snappy.controller('LoginCtrl', function($scope, $ionicPlatform, Auth, $localStor
       password: ""
     };
 
-    // Reference to locat storage
+    // Reference to local storage
     $scope.$storage = $localStorage;
 
     // Login button was pressed

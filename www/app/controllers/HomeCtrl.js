@@ -1,6 +1,6 @@
 // "use strict";
 
-snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction) {
+snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction, $cordovaLocalNotification) {
 
   $scope.imageViewing = false;
 
@@ -11,6 +11,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     if (theUser) {
 
     $scope.mapit = function() {
+
       $state.go('snapmap');
       window.plugins.nativepagetransitions.slide(
         {"direction": "left"},
@@ -26,6 +27,18 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     // Listen for any changes for new images
     firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(theUser.uid).on('value', function(snapshot) {
+
+      // $cordovaLocalNotification.schedule({
+      //   id: 1,
+      //   title: 'New Message',
+      //   text: 'You have a new snap!',
+      //   data: {
+      //     customProperty: 'custom value'
+      //   }
+      // }).then(function (result) {
+      //   console.log('Notification triggered');
+      // });
+
       $timeout(function() {
         $scope.collection = snapshot.val();
       });
@@ -47,6 +60,9 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     // Logout button pressed in nav bar
     $scope.logout = function() {
       Auth.logout();
+      $scope.$storage = $localStorage;
+      delete $scope.$storage.email;
+      delete $scope.$storage.password;
       $state.go('login');
     };
 
