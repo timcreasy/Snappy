@@ -1,6 +1,6 @@
 "use strict";
 
-snappy.service("FirebaseInteraction", function($state) {
+snappy.service("FirebaseInteraction", function($state, FirebaseCreds, $http) {
 
   // Adds new user to firebase
   this.addNewUserToFirebase = function(uid, email, fullName, userPicture) {
@@ -18,5 +18,18 @@ snappy.service("FirebaseInteraction", function($state) {
       return snapshot.val();
     });
   };
+
+  this.getUserDataById = function(userId) {
+    // return firebase.database().ref('users').child(userId).once('value', function(snapshot) {
+    //   return snapshot.val();
+    // });
+    var queryString = `${FirebaseCreds.databaseURL}/users/${userId}.json?`;
+
+    return $http.get(queryString).then(function(response){
+        var userData = response;
+        return userData;
+    });
+
+  }
 
 });

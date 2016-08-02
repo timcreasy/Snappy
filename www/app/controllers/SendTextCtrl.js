@@ -2,10 +2,12 @@
 
 snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
   '$stateParams', '$ionicActionSheet',
-  '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval', 'TextRecipient', 'CurrentUser', 'TextMessageService',
+  '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval', 'TextRecipient', 'CurrentUser', 'TextMessageService', 'FirebaseInteraction',
   function($scope, $rootScope, $state, $stateParams,
     $ionicActionSheet,
-    $ionicPopup, $ionicScrollDelegate, $timeout, $interval, TextRecipient, CurrentUser, TextMessageService) {
+    $ionicPopup, $ionicScrollDelegate, $timeout, $interval, TextRecipient, CurrentUser, TextMessageService, FirebaseInteraction) {
+
+
 
 
     // Home button pressed
@@ -22,7 +24,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     // Sending messages to user
     $scope.toUser = {
       _id: TextRecipient.get().uid,
-      pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
+      pic: 'img/NoUser.png',
       username: TextRecipient.get().name
     };
 
@@ -30,9 +32,21 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     // Sending messages from user
     $scope.user = {
       _id: CurrentUser.getUser().uid,
-      pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
+      pic: 'img/NoUser.png',
       username: CurrentUser.getUser().fullName
     };
+
+    FirebaseInteraction.getUserDataById($scope.toUser._id).then(function(userData) {
+        if (userData.data.hasOwnProperty('profilePicture')) {
+          $scope.toUser.pic = userData.data.profilePicture;
+        }
+    });
+
+    FirebaseInteraction.getUserDataById($scope.user._id).then(function(userData) {
+      if (userData.data.hasOwnProperty('profilePicture')) {
+        $scope.user.pic = userData.data.profilePicture;
+      }
+    });
 
 
     // Create unique users thread string

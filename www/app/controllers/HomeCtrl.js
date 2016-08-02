@@ -2,8 +2,7 @@
 
 snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient) {
 
-  $scope.showTestModal = false;
-
+  $scope.imageViewing = false;
 
   // On auth state change
   firebase.auth().onAuthStateChanged(function(theUser) {
@@ -91,6 +90,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
         template: image
       }).then(function(){
         // Other logic
+        $scope.imageViewing = true;
       });
     };
 
@@ -98,6 +98,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     $scope.hide = function(){
       $ionicLoading.hide().then(function(){
         // Other logic
+        $scope.imageViewing = false;
       });
     };
 
@@ -138,7 +139,9 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
           } else {
             $scope.counter--;
             console.log($scope.counter);
-            document.getElementById('counterOutput').innerHTML = $scope.counter;
+            if ($scope.imageViewing === true) {
+              document.getElementById('counterOutput').innerHTML = $scope.counter;
+            }
           }
         }, 1000);
       } else if ($scope.timerActive && $scope.selectedImage === selected) {
