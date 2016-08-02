@@ -91,7 +91,10 @@ snappy.controller('SendPictureCtrl',
           $scope.usersToSendTo = value;
           $scope.usersToSendTo.forEach(function(user) {
 
-            firebase.database().ref().child('picturemessages').push({
+            // console.log("UNIQUE KEY: ", uuid.v4());
+            var uniqueKey = uuid.v4();
+
+            firebase.database().ref().child('picturemessages').child(uniqueKey).set({
               disabled: false,
               image: imgToSend,
               senderId: CurrentUser.getUser().uid,
@@ -99,7 +102,8 @@ snappy.controller('SendPictureCtrl',
               recipientId: user.uid,
               recipientName: user.fullName,
               lat: currentLat,
-              long: currentLong
+              long: currentLong,
+              id: uniqueKey
             });
 
           });

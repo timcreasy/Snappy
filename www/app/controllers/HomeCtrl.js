@@ -1,6 +1,6 @@
 // "use strict";
 
-snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient) {
+snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction) {
 
   $scope.imageViewing = false;
 
@@ -159,6 +159,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     function disableImage(imageObj) {
       imageObj.disabled = true;
+      FirebaseInteraction.disableImage(imageObj);
     };
 
   }});

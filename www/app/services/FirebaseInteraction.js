@@ -29,7 +29,10 @@ snappy.service("FirebaseInteraction", function($state, FirebaseCreds, $http) {
         var userData = response;
         return userData;
     });
+  }
 
+  this.disableImage = function(imageObj) {
+    firebase.database().ref('picturemessages').child(imageObj.id).update(imageObj);
   }
 
 });
