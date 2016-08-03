@@ -9822,6 +9822,9 @@ a.button {
   text-align: center;
   height: calc(100% - 144px); }
 
+.snap {
+  padding-right: 45px; }
+
 #snapImage {
   width: 100vw;
   height: 100vh; }

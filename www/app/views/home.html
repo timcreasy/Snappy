@@ -24,9 +24,9 @@
       <div class="list">
         <div ng-repeat="image in collection">
           <!-- <div class="snapBox"></div> -->
-          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-icon-left' : 'item item-icon-left'">
+          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-icon-left snap' : 'item item-icon-left snap'">
             <i ng-show="selectedImage === image && !image.disabled" class="icon">{{counter}}</i>
-            <h3>{{image.senderName}}</h3>
+            <h3 class="messageNameDislay">{{image.senderName}}</h3>
           </div>
         </div>
       </div>
