@@ -9833,6 +9833,9 @@ a.button {
 .loading {
   padding: 0; }
 
+.loading-container .loading {
+  padding: 0; }
+
 #imageOutput {
   margin-top: 10px;
   text-align: center; }

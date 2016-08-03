@@ -1,6 +1,6 @@
 "use strict";
 
-snappy.controller('SnapMapCtrl', function($scope, $state, $cordovaGeolocation, MapFactory) {
+snappy.controller('SnapMapCtrl', function($scope, $state, $cordovaGeolocation, MapFactory, CurrentUser) {
 
   MapFactory.init();
 

@@ -178,6 +178,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
       if (selected.disabled === true) {
         console.log("IMAGE DISABLED");
+        // $scope.show(img);
       } else {
 
       // If there is not a timer active, start a new timer
