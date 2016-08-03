@@ -32,11 +32,17 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 
 #snapImage {
-  width: 100%;
+  width: 100vw;
+  height: 100vh
 }
 
 .loading-container {
   background-color: white;
+  padding: 0;
+}
+
+.loading {
+  padding: 0;
 }
 
 #imageOutput {
@@ -415,4 +421,17 @@ i.icon.ion-ios-camera {
 
 .no-errors {
   border-bottom: 3px solid green;
+}
+
+#counterDisplay {
+  position: absolute;
+  top: 15px;
+  right: 0;
+  background-color: black;
+  padding: 0 5px;
+  margin-top: 5px;
+  margin-right: 5px;
+  width: 50px;
+  height: 42px;
+  text-align: center
 }

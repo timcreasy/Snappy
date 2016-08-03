@@ -7,7 +7,22 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     $ionicActionSheet,
     $ionicPopup, $ionicScrollDelegate, $timeout, $interval, TextRecipient, CurrentUser, TextMessageService, FirebaseInteraction) {
 
-
+      var newMessage = false;
+      firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
+        if (!newMessage) return;
+        $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
+          // success
+        }, function (error) {
+          // error
+        });
+      });
+      firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
+        newMessage = true;
+      });
+      $scope.$on('$ionicView.leave', function() {
+        // Reset isInitialViewLoad on leave
+        newMessage = false;
+      });
 
 
     // Home button pressed
@@ -92,6 +107,8 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     $scope.$on('$ionicView.leave', function() {
       cordova.plugins.Keyboard.disableScroll(false);
       console.log('leaving UserMessages view, destroying interval');
+      // Reset isInitialViewLoad on leave
+      newMessage = false;
       // Make sure that the interval is destroyed
       if (angular.isDefined(messageCheckTimer)) {
         $interval.cancel(messageCheckTimer);

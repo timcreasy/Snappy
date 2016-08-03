@@ -1,9 +1,18 @@
 "use strict";
 
-var snappy = angular.module('snappy', ['ionic','ngCordova', 'firebase', 'ngStorage', 'ionic-multiselect', 'monospaced.elastic', 'ionic-color-picker', 'ngMessages', 'ionic.service.core', 'ionic.service.push'])
+var snappy = angular.module('snappy', ['ionic','ngCordova', 'firebase', 'ngStorage', 'ionic-multiselect', 'monospaced.elastic', 'ionic-color-picker', 'ngMessages'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+
+    // var push = new Ionic.Push({
+    //   "debug": true
+    // });
+    //
+    // push.register(function(token) {
+    //   console.log("Device token:",token.token);
+    //   alert(token.token);
+    // });
 
     // then override any default you want
     window.plugins.nativepagetransitions.globalOptions.duration = 250;

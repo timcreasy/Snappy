@@ -1,17 +1,6 @@
 "use strict";
 
-snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds, $ionicConfigProvider, $ionicAppProvider){
-
-  //
-  $ionicAppProvider.identify({
-    // The App ID (from apps.ionic.io) for the server
-    app_id: '9139b002',
-    // The public API key all services will use for this app
-    api_key: 'a9427e9c9382bce38f4abe6183a18d7cb534039b4b26b0dd',
-    // Set the app to use development pushes
-    dev_push: true
-  });
-
+snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds, $ionicConfigProvider){
 
   $ionicConfigProvider.views.maxCache('0');
   $ionicConfigProvider.views.transition('none');
