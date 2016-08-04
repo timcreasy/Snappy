@@ -11,30 +11,24 @@
   </ion-nav-buttons>
     <ion-content id="homeView" class="has-footer">
 
-      <!-- <div class="list">
-        <div ng-repeat="image in collection">
-          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-thumbnail-left' : 'item item-thumbnail-left'">
-            <img class="images" ng-src="data:image/png;base64,{{image.image}}">
-            <img class="images" ng-src="{{image.disabled  && 'https://inkplant.com/images/inkplant/code/red-box.jpg' || 'http://www.newhavenbulletin.com/wp-content/uploads/2012/01/blue-box.jpg'}}">
-            <h1>{{image.senderName}}</h1>
-          </div>
-        </div>
-      </div> -->
-
       <div class="list">
-        <div ng-repeat="image in collection">
+        <div class="messageTiles" ng-repeat="image in collection | orderObjectBy: 'timeMarker' : true">
           <!-- <div class="snapBox"></div> -->
           <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-icon-left snap' : 'item item-icon-left snap'">
             <i ng-show="selectedImage === image && !image.disabled" class="icon">{{counter}}</i>
-            <h3 class="messageNameDislay">{{image.senderName}}</h3>
+            <h2 class="messageNameDislay">{{image.senderName}}</h2>
           </div>
         </div>
+      </div>
+
+      <div id="noMessagesTag" class="verticalcenter" ng-show="collection === null">
+        <h4>Nothing to see here...</h4>
       </div>
 
     </ion-content>
     <ion-footer-bar align-title="center" class="bar-stable" id="snapFooter">
         <div class="title" id="snapButton">
-          <i ng-click="picture()" class="icon ion-ios-camera"></i>
+          <i id="cameraButton" on-hold="camPressed()" on-release="camReleased()" ng-click="picture()" class="icon ion-ios-camera"></i>
         </div>
       </ion-footer-bar>
 </ion-view>

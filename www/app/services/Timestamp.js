@@ -2,7 +2,7 @@
 snappy.service("Timestamp", function() {
 
   this.get = function() {
-    
+
     // Create a date object with the current time
       var now = new Date();
 
@@ -31,5 +31,6 @@ snappy.service("Timestamp", function() {
     // Return the formatted string
       return date.join("/") + " " + time.join(":") + " " + suffix;
     }
+
 
 });

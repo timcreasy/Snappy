@@ -19,6 +19,8 @@
     "angular-farbtastic": "*",
     "jquery": "1.9.1",
     "ionic-color-picker": "^1.0.3",
-    "angular-messages": "^1.5.8"
+    "angular-messages": "^1.5.8",
+    "ion-radial-progress": "^1.0.0",
+    "angular-order-object-by": "^1.3.0"
   }
 }

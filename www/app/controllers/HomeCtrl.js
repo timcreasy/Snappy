@@ -4,6 +4,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
   $scope.imageViewing = false;
   var isInitialViewLoad = true;
+  $scope.collection = null;
 
   // On auth state change
   firebase.auth().onAuthStateChanged(function(theUser) {
@@ -27,22 +28,22 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       );
     }
 
-    // var newMessage = false;
-    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
-    //   if (!newMessage) return;
-    //   $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
-    //     // success
-    //   }, function (error) {
-    //     // error
-    //   });
-    // });
-    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
-    //   newMessage = true;
-    // });
-    // $scope.$on('$ionicView.leave', function() {
-    //   // Reset isInitialViewLoad on leave
-    //   newMessage = false;
-    // });
+    var newMessage = false;
+    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
+      if (!newMessage) return;
+      $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
+        // success
+      }, function (error) {
+        // error
+      });
+    });
+    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
+      newMessage = true;
+    });
+    $scope.$on('$ionicView.leave', function() {
+      // Reset isInitialViewLoad on leave
+      newMessage = false;
+    });
 
     // // Listen for any changes for new messages
     // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(theUser.uid).on('child_added', function(snapshot) {
@@ -79,6 +80,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
       $timeout(function() {
         $scope.collection = snapshot.val();
+        console.log($scope.collection);
       });
     });
 
@@ -178,6 +180,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
       if (selected.disabled === true) {
         console.log("IMAGE DISABLED");
+        console.log("Selected", selected);
         // $scope.show(img);
       } else {
 
@@ -190,6 +193,8 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
             $interval.cancel($scope.timer);
             $scope.hide();
             console.log("Hiding:", selected);
+            delete selected.$$hashKey;
+            console.log("Deleted hashkey", selected);
             disableImage(selected);
             $scope.counter = 10;
             $scope.timerActive = false;
@@ -210,6 +215,18 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       }
 
     };
+
+    $scope.camPressed = function() {
+      console.log("Cam pressed");
+      var cameraButton = angular.element( document.querySelector( '#cameraButton' ) );
+      cameraButton.addClass('greyCamera');
+    }
+
+    $scope.camReleased = function() {
+      console.log("Cam released");
+      var cameraButton = angular.element( document.querySelector( '#cameraButton' ) );
+      cameraButton.removeClass('greyCamera');
+    }
 
     // Logic for when image released
     $scope.imageReleased = function() {

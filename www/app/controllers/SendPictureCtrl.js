@@ -29,7 +29,12 @@ snappy.controller('SendPictureCtrl',
     $scope.imageToSend = ImageToSend.get();
 
     var canvas = document.getElementById('drawCanvas');
-    var drawArea = new SignaturePad(canvas);
+    var drawArea = new SignaturePad(canvas, {
+      velocityFilterWeight: 0,
+      dotSize: 3.5,
+      minWidth: 3.5,
+      maxWidth: 3.5
+    });
 
     // Listen for any changes to color selection, and change penColor
     $scope.$watch('testColors.first', function() {
@@ -83,6 +88,22 @@ snappy.controller('SendPictureCtrl',
       );
     };
 
+    // $scope.pen = {
+    //   size: 2
+    // };
+
+
+    $scope.pen = {
+      size: 3.5
+    };
+
+    $scope.setPenSize = function() {
+      drawArea.minWidth = $scope.pen.size;
+      drawArea.maxWidth = $scope.pen.size;
+      drawArea.dotSize = $scope.pen.size;
+    }
+
+
     // Values selected in user select, send image
     $scope.onValueChanged = function(value){
 
@@ -110,6 +131,7 @@ snappy.controller('SendPictureCtrl',
 
             var uniqueKey = uuid.v4();
             var messageTimestamp = Timestamp.get();
+            var dateStamp = Date.now();
 
             firebase.database().ref().child('picturemessages').child(uniqueKey).set({
               disabled: false,
@@ -121,7 +143,8 @@ snappy.controller('SendPictureCtrl',
               lat: currentLat,
               long: currentLong,
               id: uniqueKey,
-              timestamp: messageTimestamp
+              timestamp: messageTimestamp,
+              timeMarker: dateStamp
             });
 
           });
