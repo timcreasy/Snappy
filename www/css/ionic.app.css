@@ -2,9 +2,7 @@
 /*
 To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
-
 For example, you might change some of the default colors:
-
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
 $positive:                        #387ef5 !default;
@@ -9818,9 +9816,6 @@ a.button {
 .images {
   width: 50%; }
 
-ion-content {
-  background-color: #f2f2f2; }
-
 #homeView {
   text-align: center;
   height: calc(100% - 144px); }
@@ -10156,13 +10151,6 @@ i.icon.ion-ios-camera {
   height: 42px;
   text-align: center; }
 
-#noMessagesTag {
-  margin-top: 37vh; }
-
-#noMessagesTag h4 {
-  color: rgba(181, 181, 181, 0.8);
-  text-shadow: 1px 4px 6px #f2f2f2, 0 0 0 #000, 1px 4px 6px #f2f2f2; }
-
 .item {
   border-color: darkgray; }
 
@@ -10178,18 +10166,30 @@ i.icon.ion-ios-camera {
   border: none;
   background: transparent; }
 
-.navBar {
-  color: #000 !important;
-  background-color: #6CD49B !important;
-  font-weight: 900; }
+#noMessagesTag {
+  margin-top: 37vh; }
+
+#noMessagesTag h4 {
+  color: rgba(68, 68, 68, 0.8);
+  text-shadow: 1px 4px 6px #e5e5e5, 0 0 0 #000, 1px 4px 6px #e5e5e5; }
+
+ion-content {
+  background-color: #e5e5e5; }
 
 #snapFooter {
-  height: 80px;
-  color: #000 !important;
-  background-color: #C1C8C4 !important; }
+  height: 80px; }
 
 .disabledSnap {
-  background-color: #D3E4FF; }
+  background-color: transparent !important; }
 
 .activeSnap {
-  background-color: #817EF3; }
+  background-color: transparent !important; }
+
+.activeSnap h2 {
+  font-weight: bolder; }
+
+#cameraButton {
+  color: #282c34; }
+
+.bar .title {
+  font-size: 20px; }

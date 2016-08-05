@@ -69,7 +69,7 @@
 
     <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
         <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
-            <label class="item-input-wrapper">
+            <label id="textSend" class="item-input-wrapper">
                 <textarea id="textMessageInput" ng-model="input.message" value="" placeholder="Send {{toUser.username}} a message..." required minlength="1" maxlength="1500" msd-elastic></textarea>
             </label>
             <div class="footer-btn-wrap">
