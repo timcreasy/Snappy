@@ -14,7 +14,7 @@
       <div class="list">
         <div class="messageTiles" ng-repeat="image in collection | orderObjectBy: 'timeMarker' : true">
           <!-- <div class="snapBox"></div> -->
-          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-icon-left snap' : 'item item-icon-left snap'">
+          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-icon-left snap' : 'activeSnap item item-icon-left snap'">
             <i ng-show="selectedImage === image && !image.disabled" class="icon">{{counter}}</i>
             <h2 class="messageNameDislay">{{image.senderName}}</h2>
           </div>

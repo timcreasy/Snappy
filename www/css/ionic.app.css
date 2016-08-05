@@ -10056,9 +10056,6 @@ a.autolinker {
   max-width: 250px;
   border: 1px solid #000; }
 
-#snapFooter {
-  height: 80px; }
-
 i.icon.ion-ios-camera {
   font-size: 80px;
   padding-left: 15px;
@@ -10075,9 +10072,6 @@ i.icon.ion-ios-camera {
 
 #drawCanvas {
   width: 384px; }
-
-.disabledSnap {
-  background-color: #e0e0e0; }
 
 .relativePositioning {
   position: relative; }
@@ -10183,3 +10177,19 @@ i.icon.ion-ios-camera {
   margin: 0 auto;
   border: none;
   background: transparent; }
+
+.navBar {
+  color: #000 !important;
+  background-color: #6CD49B !important;
+  font-weight: 900; }
+
+#snapFooter {
+  height: 80px;
+  color: #000 !important;
+  background-color: #C1C8C4 !important; }
+
+.disabledSnap {
+  background-color: #D3E4FF; }
+
+.activeSnap {
+  background-color: #817EF3; }

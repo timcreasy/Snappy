@@ -315,12 +315,6 @@ a.autolinker {
     border:1px solid #000;
 }
 
-#snapFooter {
-  height: 80px;
-  // background-color:rgba(0,0,0,0) !important;
-  // border-color: rgba(0,0,0,0) !important;
-}
-
 i.icon.ion-ios-camera {
   font-size: 80px;
   padding-left: 15px;
@@ -343,9 +337,7 @@ i.icon.ion-ios-camera {
   width: 384px;
 }
 
-.disabledSnap {
- background-color: #e0e0e0;
-}
+
 
 .relativePositioning {
   position: relative;
@@ -473,4 +465,27 @@ i.icon.ion-ios-camera {
   margin: 0 auto;
   border: none;
   background: transparent;
+}
+
+// PAGE STYLES //////////////////////////////////////////////
+
+
+.navBar {
+  color : #000 !important; // text
+  background-color: #6CD49B !important; // for bg color
+  font-weight: 900;
+}
+
+#snapFooter {
+  height: 80px;
+  color : #000 !important; // text
+  background-color: #C1C8C4 !important; // for bg color
+}
+
+.disabledSnap {
+  background-color: #D3E4FF;
+}
+
+.activeSnap {
+  background-color: #817EF3;
 }
