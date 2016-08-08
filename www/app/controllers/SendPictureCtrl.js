@@ -3,22 +3,22 @@
 snappy.controller('SendPictureCtrl',
   function($scope, $ionicPlatform, $state, $timeout, FirebaseInteraction, ImageToSend, CurrentUser, $cordovaGeolocation, $http, FirebaseCreds, Timestamp, $cordovaToast) {
 
-    var newMessage = false;
-    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
-      if (!newMessage) return;
-      $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
-        // success
-      }, function (error) {
-        // error
-      });
-    });
-    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
-      newMessage = true;
-    });
-    $scope.$on('$ionicView.leave', function() {
-      // Reset isInitialViewLoad on leave
-      newMessage = false;
-    });
+    // var newMessage = false;
+    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
+    //   if (!newMessage) return;
+    //   $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
+    //     // success
+    //   }, function (error) {
+    //     // error
+    //   });
+    // });
+    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
+    //   newMessage = true;
+    // });
+    // $scope.$on('$ionicView.leave', function() {
+    //   // Reset isInitialViewLoad on leave
+    //   newMessage = false;
+    // });
 
     // Set initial pen color to be black
     $scope.testColors = {

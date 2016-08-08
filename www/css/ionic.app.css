@@ -9948,12 +9948,12 @@ img.profile-pic.right {
   bottom: -7.5px; }
 
 .chat-bubble.left {
-  background-color: #e6e5eb;
+  background-color: #F8F8F8;
   float: left;
   margin-left: 55px; }
 
 .chat-bubble.left:before {
-  background-color: #e6e5eb;
+  background-color: #F8F8F8;
   left: 10px;
   -webkit-transform: rotate(70deg) skew(5deg); }
 

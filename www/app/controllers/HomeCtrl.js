@@ -28,22 +28,22 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       );
     }
 
-    var newMessage = false;
-    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
-      if (!newMessage) return;
-      $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
-        // success
-      }, function (error) {
-        // error
-      });
-    });
-    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
-      newMessage = true;
-    });
-    $scope.$on('$ionicView.leave', function() {
-      // Reset isInitialViewLoad on leave
-      newMessage = false;
-    });
+    // var newMessage = false;
+    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
+    //   if (!newMessage) return;
+    //   $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
+    //     // success
+    //   }, function (error) {
+    //     // error
+    //   });
+    // });
+    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
+    //   newMessage = true;
+    // });
+    // $scope.$on('$ionicView.leave', function() {
+    //   // Reset isInitialViewLoad on leave
+    //   newMessage = false;
+    // });
 
     // // Listen for any changes for new messages
     // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(theUser.uid).on('child_added', function(snapshot) {
