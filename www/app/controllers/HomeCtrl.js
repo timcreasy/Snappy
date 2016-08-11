@@ -50,27 +50,30 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     // Listen for any changes for new texts
     firebase.database().ref('texts').on('value', function(snapshot) {
 
-      var textCollection = snapshot.val();
-      $scope.texts = [];
-      // Loop through all text conversations
-      for (var key in textCollection) {
-        // If current user is participant in thread, add and remove necessary data, push to texts collection
-        if (key.indexOf(theUser.uid) !== -1) {
-          var messageThread = textCollection[key];
-          if (CurrentUser.getUser().fullName === messageThread.personOneName) {
-            messageThread.senderId = messageThread.personTwoId;
-            messageThread.senderName = messageThread.personTwoName;
-          } else if (CurrentUser.getUser().fullName === messageThread.personTwoName) {
-            messageThread.senderId = messageThread.personOneId;
-            messageThread.senderName = messageThread.personOneName;
+      // Timeout to assist with ng-repeat of text messages
+      $timeout(function() {
+        var textCollection = snapshot.val();
+        $scope.texts = [];
+        // Loop through all text conversations
+        for (var key in textCollection) {
+          // If current user is participant in thread, add and remove necessary data, push to texts collection
+          if (key.indexOf(theUser.uid) !== -1) {
+            var messageThread = textCollection[key];
+            if (CurrentUser.getUser().fullName === messageThread.personOneName) {
+              messageThread.senderId = messageThread.personTwoId;
+              messageThread.senderName = messageThread.personTwoName;
+            } else if (CurrentUser.getUser().fullName === messageThread.personTwoName) {
+              messageThread.senderId = messageThread.personOneId;
+              messageThread.senderName = messageThread.personOneName;
+            }
+            delete messageThread.personOneName;
+            delete messageThread.personTwoName;
+            delete messageThread.personOneId;
+            delete messageThread.personTwoId;
+            $scope.texts.push(messageThread);
           }
-          delete messageThread.personOneName;
-          delete messageThread.personTwoName;
-          delete messageThread.personOneId;
-          delete messageThread.personTwoId;
-          $scope.texts.push(messageThread);
         }
-      }
+      });
     });
 
     // Message was right swiped on, open text screen

@@ -51,6 +51,11 @@ snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds, $ionic
       url:'/snapmap',
       templateUrl: 'app/views/snapmap.html',
       controller: 'SnapMapCtrl'
+  })
+  .state('addfriend',{
+      url:'/addfriend',
+      templateUrl: 'app/views/addfriend.html',
+      controller: 'AddFriendCtrl'
   });
   $urlRouterProvider.otherwise('/');
 });
