@@ -1,14 +1,11 @@
-// "use strict";
-
 snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction, $cordovaLocalNotification, $cordovaToast) {
 
+  // Stores whether image is being viewed, as well as collection of pictures and texts
   $scope.imageViewing = false;
-  var isInitialViewLoad = true;
-  // $scope.collection = null;
   $scope.collection = [];
   $scope.texts = [];
 
-  // On auth state change
+  // Only run when user is successfully logged in
   firebase.auth().onAuthStateChanged(function(theUser) {
 
     // If logged in go to home, otherwise, back to login
@@ -19,9 +16,9 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     $scope.counter = 10;
     $scope.timer = null;
 
-
+    // Snaptivity button pressed in navbar
     $scope.mapit = function() {
-
+      // Go to snapmap view with transitions
       $state.go('snapmap');
       window.plugins.nativepagetransitions.slide(
         {"direction": "left"},
@@ -30,24 +27,16 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       );
     }
 
-
-    // Listen for any changes for new messages
+    // Listen for any changes for new picture messages
     firebase.database().ref('messages').orderByChild('recipientId').equalTo(theUser.uid).on('value', function(snapshot) {
 
-      // $cordovaLocalNotification.schedule({
-      //   id: 1,
-      //   title: 'New Message',
-      //   text: 'You have a new snap!',
-      //   data: {
-      //     customProperty: 'custom value'
-      //   }
-      // }).then(function (result) {
-      //   console.log('Notification triggered');
-      // });
-
+      // Timeout to assist with ng-repeat of picture messages
       $timeout(function() {
+        // Store data in messageCollection
         var messageCollection = snapshot.val();
+        // Reset current state of collection
         $scope.collection = [];
+        // Loop through all messages and only present active messagess
         for (var key in messageCollection) {
           if (messageCollection[key].disabled === true) {
             delete messageCollection[key];
@@ -65,7 +54,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       $scope.texts = [];
       // Loop through all text conversations
       for (var key in textCollection) {
-        // If current user is participant in thread
+        // If current user is participant in thread, add and remove necessary data, push to texts collection
         if (key.indexOf(theUser.uid) !== -1) {
           var messageThread = textCollection[key];
           if (CurrentUser.getUser().fullName === messageThread.personOneName) {
@@ -80,7 +69,6 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
           delete messageThread.personOneId;
           delete messageThread.personTwoId;
           $scope.texts.push(messageThread);
-          console.log("$scope.texts", $scope.texts);
         }
       }
     });
@@ -88,8 +76,8 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     // Message was right swiped on, open text screen
     $scope.sendTextSwipe = function(item) {
 
+      // Build recipient object, and go to sendtext view
       var recipient = {uid: item.senderId, name: item.senderName};
-      console.log("Sending to -", recipient.name);
       TextRecipient.set(recipient);
       $state.go('sendtext');
       window.plugins.nativepagetransitions.slide(
@@ -101,6 +89,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     // Logout button pressed in nav bar
     $scope.logout = function() {
+      // Logout user, and go to login view
       Auth.logout();
       $scope.$storage = $localStorage;
       delete $scope.$storage.email;
@@ -111,6 +100,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
     // Snap button pressed in nav bar
     $scope.picture = function() {
 
+      // Picture options
       var options = {
         quality: 50,
         destinationType: Camera.DestinationType.DATA_URL,
@@ -124,6 +114,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
   	    correctOrientation:true
       };
 
+      // Take picture, and go to sendpicture view
       $cordovaCamera.getPicture(options).then(function(imageData) {
         ImageToSend.set({
           image: imageData,
@@ -175,16 +166,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
                     <h1 id="counterDisplay">${$scope.counter}</h1>
                     <img id="snapImage" src="${sourceString}">
                    </div>`;
-    //  var img = `<div id="overlay">
-    //                <h1 id="counterDisplay">${$scope.counter}</h1>
-    //                <img id="snapImage" src="${sourceString}">
-    //             </div>`;
 
-      if (selected.disabled === true) {
-        console.log("IMAGE DISABLED");
-        console.log("Selected", selected);
-        // $scope.show(img);
-      } else {
 
       // If there is not a timer active, start a new timer
       if(!$scope.timerActive) {
@@ -214,16 +196,16 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
         $scope.show(img);
       }
 
-      }
-
     };
 
+    // Add 'fake' styling to camera button press
     $scope.camPressed = function() {
       console.log("Cam pressed");
       var cameraButton = angular.element( document.querySelector( '#cameraButton' ) );
       cameraButton.addClass('greyCamera');
     }
 
+    // Add 'fake' styling to camera button press
     $scope.camReleased = function() {
       console.log("Cam released");
       var cameraButton = angular.element( document.querySelector( '#cameraButton' ) );
@@ -235,6 +217,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       $scope.hide();
     };
 
+    // Disables image after timer expiration
     function disableImage(imageObj) {
       imageObj.disabled = true;
       FirebaseInteraction.disableImage(imageObj);
