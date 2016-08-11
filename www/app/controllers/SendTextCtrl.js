@@ -135,7 +135,9 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
         var messagesArray = [];
 
         for (var userMessage in threadMessages) {
-          messagesArray.push(threadMessages[userMessage]);
+          if (userMessage !== "personOneId" && userMessage !== "personTwoId" && userMessage !== "personOneName" && userMessage !== "personTwoName") {
+            messagesArray.push(threadMessages[userMessage]);
+          }
         }
 
         // Add messages to $scope.messages, scroll to bottom
@@ -175,13 +177,22 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       message.userId = $scope.user._id;
       // message.pic = $scope.user.picture;
 
+
+      firebase.database().ref('texts/' + threadString).update({
+          personOneId: message.toId,
+          personOneName: $scope.toUser.username,
+          personTwoId: message.userId,
+          personTwoName: message.username
+      });
+
       // Add message to firebase
       firebase.database().ref('texts/' + threadString).push({
           recipientId: message.toId,
           recipientName: $scope.toUser.username,
           senderId: message.userId,
           senderName: message.username,
-          messageText: message.text
+          messageText: message.text,
+          type: "text"
       });
 
       // Scroll page to bottom

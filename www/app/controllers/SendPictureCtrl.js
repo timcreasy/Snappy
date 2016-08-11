@@ -133,7 +133,7 @@ snappy.controller('SendPictureCtrl',
             var messageTimestamp = Timestamp.get();
             var dateStamp = Date.now();
 
-            firebase.database().ref().child('picturemessages').child(uniqueKey).set({
+            firebase.database().ref().child('messages').child(uniqueKey).set({
               disabled: false,
               image: imgToSend,
               senderId: CurrentUser.getUser().uid,
@@ -144,7 +144,8 @@ snappy.controller('SendPictureCtrl',
               long: currentLong,
               id: uniqueKey,
               timestamp: messageTimestamp,
-              timeMarker: dateStamp
+              timeMarker: dateStamp,
+              type: "picture"
             });
 
           });

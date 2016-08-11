@@ -4,7 +4,9 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
   $scope.imageViewing = false;
   var isInitialViewLoad = true;
-  $scope.collection = null;
+  // $scope.collection = null;
+  $scope.collection = [];
+  $scope.texts = [];
 
   // On auth state change
   firebase.auth().onAuthStateChanged(function(theUser) {
@@ -28,44 +30,9 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       );
     }
 
-    // var newMessage = false;
-    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
-    //   if (!newMessage) return;
-    //   $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
-    //     // success
-    //   }, function (error) {
-    //     // error
-    //   });
-    // });
-    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
-    //   newMessage = true;
-    // });
-    // $scope.$on('$ionicView.leave', function() {
-    //   // Reset isInitialViewLoad on leave
-    //   newMessage = false;
-    // });
 
-    // // Listen for any changes for new messages
-    // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(theUser.uid).on('child_added', function(snapshot) {
-    //
-    //   if (!isInitialViewLoad) {
-    //     $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
-    //       // success
-    //     }, function (error) {
-    //       // error
-    //     });
-    //   }
-    //
-    //   isInitialViewLoad = false;
-    // });
-    //
-    // $scope.$on('$ionicView.leave', function() {
-    //   // Reset isInitialViewLoad on leave
-    //   isInitialViewLoad = true;
-    // });
-
-    // Listen for any changes for new images
-    firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(theUser.uid).on('value', function(snapshot) {
+    // Listen for any changes for new messages
+    firebase.database().ref('messages').orderByChild('recipientId').equalTo(theUser.uid).on('value', function(snapshot) {
 
       // $cordovaLocalNotification.schedule({
       //   id: 1,
@@ -79,13 +46,48 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       // });
 
       $timeout(function() {
-        $scope.collection = snapshot.val();
-        console.log($scope.collection);
+        var messageCollection = snapshot.val();
+        $scope.collection = [];
+        for (var key in messageCollection) {
+          if (messageCollection[key].disabled === true) {
+            delete messageCollection[key];
+          } else {
+            $scope.collection.push(messageCollection[key]);
+          }
+        }
       });
+    });
+
+    // Listen for any changes for new texts
+    firebase.database().ref('texts').on('value', function(snapshot) {
+
+      var textCollection = snapshot.val();
+      $scope.texts = [];
+      // Loop through all text conversations
+      for (var key in textCollection) {
+        // If current user is participant in thread
+        if (key.indexOf(theUser.uid) !== -1) {
+          var messageThread = textCollection[key];
+          if (CurrentUser.getUser().fullName === messageThread.personOneName) {
+            messageThread.senderId = messageThread.personTwoId;
+            messageThread.senderName = messageThread.personTwoName;
+          } else if (CurrentUser.getUser().fullName === messageThread.personTwoName) {
+            messageThread.senderId = messageThread.personOneId;
+            messageThread.senderName = messageThread.personOneName;
+          }
+          delete messageThread.personOneName;
+          delete messageThread.personTwoName;
+          delete messageThread.personOneId;
+          delete messageThread.personTwoId;
+          $scope.texts.push(messageThread);
+          console.log("$scope.texts", $scope.texts);
+        }
+      }
     });
 
     // Message was right swiped on, open text screen
     $scope.sendTextSwipe = function(item) {
+
       var recipient = {uid: item.senderId, name: item.senderName};
       console.log("Sending to -", recipient.name);
       TextRecipient.set(recipient);

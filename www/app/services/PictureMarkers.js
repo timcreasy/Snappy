@@ -5,7 +5,7 @@ snappy.factory('PictureMarkers', function($http, CurrentUser, FirebaseCreds) {
   return {
     getMarkers: function(){
 
-      var queryString = `${FirebaseCreds.databaseURL}/picturemessages.json?orderBy="senderId"&equalTo="${CurrentUser.getUser().uid}"`;
+      var queryString = `${FirebaseCreds.databaseURL}/messages.json?orderBy="senderId"&equalTo="${CurrentUser.getUser().uid}"`;
 
       return $http.get(queryString).then(function(response){
           markers = response;

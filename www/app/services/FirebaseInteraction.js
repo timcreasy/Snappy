@@ -32,7 +32,7 @@ snappy.service("FirebaseInteraction", function($state, FirebaseCreds, $http) {
   }
 
   this.disableImage = function(imageObj) {
-    firebase.database().ref('picturemessages').child(imageObj.id).update(imageObj);
+    firebase.database().ref('messages').child(imageObj.id).update(imageObj);
   }
 
 });

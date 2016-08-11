@@ -22,6 +22,15 @@
         </div>
       </div>
 
+      <div class="list">
+        <div class="messageTiles" ng-repeat="text in texts">
+          <div on-swipe-right="sendTextSwipe(text)" ng-class="'activeSnap item item-icon-left snap'">
+            <i class="icon ion-android-chat"></i>
+            <h2 class="messageNameDislay">{{text.senderName}}</h2>
+          </div>
+        </div>
+      </div>
+
       <div id="noMessagesTag" class="verticalcenter" ng-show="collection === null">
         <h4>Nothing to see here...</h4>
       </div>
