@@ -1,4 +1,4 @@
-snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction, $cordovaLocalNotification, $cordovaToast, $ionicPopover) {
+snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction, $cordovaLocalNotification, $cordovaToast, $ionicPopover, FriendRequested) {
 
   $ionicPopover.fromTemplateUrl('app/views/menu.html', {
       scope: $scope
@@ -34,6 +34,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
   $scope.imageViewing = false;
   $scope.collection = [];
   $scope.texts = [];
+  $scope.friendRequests = [];
 
   // Only run when user is successfully logged in
   firebase.auth().onAuthStateChanged(function(theUser) {
@@ -106,6 +107,24 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       });
     });
 
+    // Listen for any changes for new friend requests
+    firebase.database().ref('users/').child(theUser.uid).child('requests').on('value', function(snapshot) {
+
+      // Timeout to assist with ng-repeat of friend requests
+      $timeout(function() {
+        // Store data in requestsCollection
+        var requestsCollection = snapshot.val();
+        // Reset current state of friendRequests
+        $scope.friendRequests = [];
+        // Loop through all requests and add to array
+        for (var key in requestsCollection) {
+          $scope.friendRequests.push(requestsCollection[key]);
+        }
+
+        console.log("REQUESTS", $scope.friendRequests);
+      });
+    });
+
     // Message was right swiped on, open text screen
     $scope.sendTextSwipe = function(item) {
 
@@ -120,6 +139,16 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       );
     };
 
+    // Add Friend button pressed
+    $scope.addFriendPressed = function() {
+      $state.go('addfriend');
+      window.plugins.nativepagetransitions.slide(
+        {"direction": "left"},
+        function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+        function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+      );
+    }
+
     // Logout button pressed in nav bar
     $scope.logout = function() {
       // Logout user, and go to login view
@@ -129,6 +158,20 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
       delete $scope.$storage.password;
       $state.go('login');
     };
+
+    $scope.viewFriendRequest = function(requested) {
+
+      // set requested friend
+      FriendRequested.set(requested);
+
+      // Go to view Friend Request view
+      $state.go('viewrequest');
+      window.plugins.nativepagetransitions.slide(
+        {"direction": "left"},
+        function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+        function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+      );
+    }
 
     // Snap button pressed in nav bar
     $scope.picture = function() {

@@ -531,3 +531,39 @@ input, textarea, .item-input, .item-input-wrapper {
 .range.range-positive input::-webkit-slider-thumb:before {
     background: #282c34;
 }
+
+#emailSearchIcon {
+  margin-right: 8px;
+}
+
+#emailSearch {
+  font-weight: 500;
+}
+
+#foundUserDisplay {
+  display: block;
+  border-radius: 50%;
+  height: 160px;
+  width: 160px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+#foundUserContainer {
+  text-align: center;
+}
+
+#friendRequestContainer {
+  text-align: center;
+}
+
+#friendRequestDisplay {
+  display: block;
+  border-radius: 50%;
+  height: 160px;
+  width: 160px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}

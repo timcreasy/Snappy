@@ -34,6 +34,12 @@
             <h2 class="messageNameDislay">{{text.senderName}}</h2>
           </div>
         </div>
+        <div class="messageTiles" ng-repeat="request in friendRequests">
+          <div ng-click="viewFriendRequest(request)" ng-class="'activeSnap item item-icon-left snap'">
+            <i class="icon ion-person-add"></i>
+            <h2 class="messageNameDislay">{{request.fullName}}</h2>
+          </div>
+        </div>
       </div>
 
 

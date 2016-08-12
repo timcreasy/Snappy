@@ -1,0 +1,22 @@
+<ion-view view-title="Add Friends">
+  <ion-nav-buttons side="left">
+    <button class="button" ng-click="goHome()">
+      Home
+    </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <label class="item item-input">
+      <form ng-submit="searchFriends(this.searchString)">
+        <span id="emailSearch" class="input-label"><i id="emailSearchIcon" class="icon ion-search"></i>Search by email:</span>
+        <input type="email" ng-model="searchString">
+        <input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+      </form>
+    </label>
+    <div ng-hide="foundUser=== null" id="foundUserContainer">
+      <img id="foundUserDisplay" class="center" ng-src="{{foundUser.profilePicture && foundUser.profilePicture || 'img/NoUser.png'}}">
+      <h3 id="foundUserNameDisplay" class="center">{{foundUser.fullName}}</h3>
+      <h5 id="foundUserEmailDisplay" class="center">{{foundUser.email}}</h5>
+      <button id="friendRequestButton" ng-click="friendRequestPressed(foundUser)" class="button button-dark">{{requestButtonText}}</button>
+    </div>
+  </ion-content>
+</ion-view>
