@@ -35,7 +35,7 @@
           </div>
         </div>
         <div class="messageTiles" ng-repeat="request in friendRequests">
-          <div ng-click="viewFriendRequest(request)" ng-class="'activeSnap item item-icon-left snap'">
+          <div ng-hide="request.ignored === true" on-swipe-right="sendTextToNonFriend(request)" ng-click="viewFriendRequest(request)" ng-class="'activeSnap item item-icon-left snap'">
             <i class="icon ion-person-add"></i>
             <h2 class="messageNameDislay">{{request.fullName}}</h2>
           </div>

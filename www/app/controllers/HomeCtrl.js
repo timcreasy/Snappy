@@ -118,12 +118,22 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
         $scope.friendRequests = [];
         // Loop through all requests and add to array
         for (var key in requestsCollection) {
-          $scope.friendRequests.push(requestsCollection[key]);
+          var requestObj = requestsCollection[key];
+          requestObj.firebaseKey = key;
+          $scope.friendRequests.push(requestObj);
         }
 
         console.log("REQUESTS", $scope.friendRequests);
       });
     });
+
+    $scope.sendTextToNonFriend = function(request) {
+      var textObj = {
+        senderId: request.uid,
+        senderName: request.fullName
+      };
+      $scope.sendTextSwipe(textObj);
+    }
 
     // Message was right swiped on, open text screen
     $scope.sendTextSwipe = function(item) {
