@@ -23,6 +23,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   width: 50%;
 }
 
+#menuButton {
+  background: transparent;
+  border: none;
+}
+
 #homeView {
   text-align: center;
   height: calc(100% - 144px);
@@ -499,4 +504,18 @@ ion-content {
 
 .bar .title {
   font-size: 20px;
+}
+
+div.popover-backdrop.active {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popover .scroll-content {
+  margin: 0px 0;
+  text-align: center;
+  background: white;
+}
+
+ion-popover-view.popover.none.ng-enter.active.ng-enter.active {
+  height: 165px;
 }

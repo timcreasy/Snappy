@@ -1,5 +1,13 @@
 <ion-view view-title="Snappy">
   <ion-nav-buttons side="right">
+    <!-- <button id="logoutButton" class="button" ng-click="logout()">
+      Log Out
+    </button> -->
+    <button id="menuButton" ng-click="openPopover($event)">
+      <i id="menuIcon" class="icon ion-navicon-round"></i>
+    </button>
+  </ion-nav-buttons>
+  <!-- <ion-nav-buttons side="right">
     <button id="logoutButton" class="button" ng-click="logout()">
       Log Out
     </button>
@@ -8,7 +16,7 @@
     <button id="mapButton" class="button" ng-click="mapit()">
       Snaptivity
     </button>
-  </ion-nav-buttons>
+  </ion-nav-buttons> -->
     <ion-content id="homeView" class="has-footer">
 
       <div class="list">

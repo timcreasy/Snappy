@@ -1,4 +1,34 @@
-snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction, $cordovaLocalNotification, $cordovaToast) {
+snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $interval, $timeout, $localStorage, $sessionStorage, Auth, CurrentUser, $state, $ionicLoading, $ionicGesture, ImageToSend, TextRecipient, FirebaseInteraction, $cordovaLocalNotification, $cordovaToast, $ionicPopover) {
+
+  $ionicPopover.fromTemplateUrl('app/views/menu.html', {
+      scope: $scope
+   }).then(function(popover) {
+      $scope.popover = popover;
+   });
+
+   $scope.openPopover = function($event) {
+      $scope.popover.show($event);
+   };
+
+   $scope.closePopover = function() {
+      $scope.popover.hide();
+   };
+
+   //Cleanup the popover when we're done with it!
+   $scope.$on('$destroy', function() {
+      $scope.popover.remove();
+   });
+
+   // Execute action on hide popover
+   $scope.$on('popover.hidden', function() {
+      // Execute action
+   });
+
+   // Execute action on remove popover
+   $scope.$on('popover.removed', function() {
+      // Execute action
+   });
+
 
   // Stores whether image is being viewed, as well as collection of pictures and texts
   $scope.imageViewing = false;
