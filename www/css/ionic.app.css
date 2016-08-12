@@ -10208,3 +10208,12 @@ div.popover-backdrop.active {
 
 ion-popover-view.popover.none.ng-enter.active.ng-enter.active {
   height: 165px; }
+
+input, textarea, .item-input, .item-input-wrapper {
+  background-color: transparent !important; }
+
+.item-stacked-label .input-label, .item-stacked-label .icon {
+  font-weight: 500; }
+
+.range.range-positive input::-webkit-slider-thumb:before {
+  background: #282c34; }
