@@ -62,18 +62,26 @@ snappy.controller('SendPictureCtrl',
     $scope.userList = null;
     $scope.usersToSendTo = null;
 
-    // Get all users and store in userList
-    firebase.database().ref('users').once('value', function(snapshot) {
+    // // Get all users friends and store in userList
+    // firebase.database().ref('users').once('value', function(snapshot) {
+    //
+    //   // Remove current user from userData
+    //   var userData = snapshot.val();
+    //   var theCurrentUserKey = CurrentUser.getUser().uid;
+    //   for (var userKey in userData) {
+    //     if (userKey === theCurrentUserKey) {
+    //       delete userData[userKey];
+    //     }
+    //   }
+    //
+    //   $scope.userList = userData;
+    //
+    // });
 
-      // Remove current user from userData
+    // Get all users friends and store in userList
+    firebase.database().ref('users/').child(CurrentUser.getUser().uid).child('friends').once('value', function(snapshot) {
+
       var userData = snapshot.val();
-      var theCurrentUserKey = CurrentUser.getUser().uid;
-      for (var userKey in userData) {
-        if (userKey === theCurrentUserKey) {
-          delete userData[userKey];
-        }
-      }
-
       $scope.userList = userData;
 
     });

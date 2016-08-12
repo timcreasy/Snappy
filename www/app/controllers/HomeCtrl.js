@@ -87,7 +87,7 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
         $scope.texts = [];
         // Loop through all text conversations
         for (var key in textCollection) {
-          // If current user is participant in thread, add and remove necessary data, push to texts collection
+          // If current user is participant in thread, add and remove necessary data, push to texts collection, if request not pending
           if (key.indexOf(theUser.uid) !== -1) {
             var messageThread = textCollection[key];
             if (CurrentUser.getUser().fullName === messageThread.personOneName) {
