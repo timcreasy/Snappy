@@ -27,7 +27,7 @@ snappy.service("Auth", function($ionicPopup, $state, FirebaseInteraction, Curren
 
 
   // Register function
-  this.register = function(userEmail, userPassword, fullName) {
+  this.register = function(userEmail, userPassword, fullName, userPicture) {
 
     firebase.auth().createUserWithEmailAndPassword(userEmail, userPassword).then(function(user) {
 
@@ -41,7 +41,7 @@ snappy.service("Auth", function($ionicPopup, $state, FirebaseInteraction, Curren
           }]
         });
 
-        FirebaseInteraction.addNewUserToFirebase(user.uid, userEmail, fullName);
+        FirebaseInteraction.addNewUserToFirebase(user.uid, userEmail, fullName, userPicture);
 
         // Go to login page
         $state.go('login');

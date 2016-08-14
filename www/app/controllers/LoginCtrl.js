@@ -5,6 +5,11 @@ snappy.controller('LoginCtrl', function($scope, $ionicPlatform, Auth, $localStor
     // Register button pressed in nav bar
     $scope.registerPressed = function() {
       $state.go('register');
+      window.plugins.nativepagetransitions.slide(
+        {"direction": "left"},
+        function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+        function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+      );
     };
 
     // Login object model for inputs
@@ -13,7 +18,7 @@ snappy.controller('LoginCtrl', function($scope, $ionicPlatform, Auth, $localStor
       password: ""
     };
 
-    // Reference to locat storage
+    // Reference to local storage
     $scope.$storage = $localStorage;
 
     // Login button was pressed

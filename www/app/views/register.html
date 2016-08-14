@@ -6,6 +6,37 @@
   </ion-nav-buttons>
   <ion-content id="registerView" scroll="false">
 
+<!--
+        <form name="authorizationForm" novalidate="" ng-submit="signIn(authorizationForm)">
+
+          <div class="list">
+
+           <label class="item item-input item-stacked-label" ng-class="{ 'has-errors' : authorizationForm.email.$invalid, 'no-errors' : authorizationForm.email.$valid}">
+             <span class="input-label">Email</span>
+             <input type="email" name="email" ng-model="authorization.email" ng-minlength="5" ng-maxlength="20" required>
+           </label>
+
+           <div class="error-container" ng-show="authorizationForm.email.$error" ng-messages="authorizationForm.email.$error">
+             <div ng-messages-include="error-list.html"></div>
+           </div>
+
+           <label class="item item-input item-stacked-label" ng-class="{ 'has-errors' : authorizationForm.password.$invalid && authorizationForm.$submitted, 'no-errors' : authorizationForm.password.$valid  && authorizationForm.$submitted}">
+             <span class="input-label">Password</span>
+             <input type="password" name="password" ng-model="authorization.password" ng-minlength="6" ng-maxlength="20" required>
+           </label>
+
+           <div class="error-container last-error-container" ng-show="authorizationForm.password.$error && authorizationForm.$submitted" ng-messages="authorizationForm.password.$error">
+               <div ng-messages-include="error-list.html"></div>
+           </div>
+
+         </div>
+
+         <button class="button button-full button-positive" type="submit">
+           Register
+         </button>
+
+       </form> -->
+
       <div class="list">
         <label class="item item-input item-stacked-label">
           <span class="input-label">Email</span>
@@ -21,7 +52,21 @@
         </label>
       </div>
 
-      <div class="center">
+      <!-- <img id="profileImageDisplay" class="center" ng-show="profilePicture" ng-src="{{profilePicture}}"> -->
+      <img id="profileImageDisplay" class="center" ng-src="{{profilePicture && profilePicture || 'img/NoUser.png'}}">
+      <div id="pictureButtons" class="center">
+        <a id="choosePictureButton" ng-click='getProfilePicture()'>
+          <button class="button button-dark">
+            Choose Photo
+          </button>
+        </a>
+        <a id="takePictureButton" ng-click='takeProfilePicture()'>
+          <button class="button button-dark">
+            Take Photo
+          </button>
+        </a>
+      </div>
+      <div id="registerButtonContainer" class="center"
         <a id="registerButton" ng-click='registerPressed()'>
           <button class="button button-dark">
             Register
@@ -31,3 +76,18 @@
 
     </ion-content>
 </ion-view>
+
+<!-- <script id="error-list.html" type="text/ng-template">
+    <div class="error" ng-message="required">
+        <i class="ion-information-circled"></i>
+        This field is required!
+    </div>
+    <div class="error" ng-message="minlength">
+        <i class="ion-information-circled"></i>
+        Minimum length of this field is 5 characters!
+    </div>
+    <div class="error" ng-message="maxlength">
+        <i class="ion-information-circled"></i>
+        Maximum length of this field is 20 characters!
+    </div>
+</script> -->

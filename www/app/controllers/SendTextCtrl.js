@@ -2,10 +2,27 @@
 
 snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
   '$stateParams', '$ionicActionSheet',
-  '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval', 'TextRecipient', 'CurrentUser', 'TextMessageService',
+  '$ionicPopup', '$ionicScrollDelegate', '$timeout', '$interval', 'TextRecipient', 'CurrentUser', 'TextMessageService', 'FirebaseInteraction',
   function($scope, $rootScope, $state, $stateParams,
     $ionicActionSheet,
-    $ionicPopup, $ionicScrollDelegate, $timeout, $interval, TextRecipient, CurrentUser, TextMessageService) {
+    $ionicPopup, $ionicScrollDelegate, $timeout, $interval, TextRecipient, CurrentUser, TextMessageService, FirebaseInteraction) {
+
+      // var newMessage = false;
+      // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('child_added', function(snapshot) {
+      //   if (!newMessage) return;
+      //   $cordovaToast.showShortTop(`New messge from ${snapshot.val().senderName}`).then(function(success) {
+      //     // success
+      //   }, function (error) {
+      //     // error
+      //   });
+      // });
+      // firebase.database().ref('picturemessages').orderByChild('recipientId').equalTo(CurrentUser.getUser().uid).on('value', function(snapshot) {
+      //   newMessage = true;
+      // });
+      // $scope.$on('$ionicView.leave', function() {
+      //   // Reset isInitialViewLoad on leave
+      //   newMessage = false;
+      // });
 
 
     // Home button pressed
@@ -22,7 +39,7 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     // Sending messages to user
     $scope.toUser = {
       _id: TextRecipient.get().uid,
-      pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
+      pic: 'img/NoUser.png',
       username: TextRecipient.get().name
     };
 
@@ -30,9 +47,21 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     // Sending messages from user
     $scope.user = {
       _id: CurrentUser.getUser().uid,
-      pic: 'http://icons.iconarchive.com/icons/mahm0udwally/all-flat/128/User-icon.png',
+      pic: 'img/NoUser.png',
       username: CurrentUser.getUser().fullName
     };
+
+    FirebaseInteraction.getUserDataById($scope.toUser._id).then(function(userData) {
+        if (userData.data.hasOwnProperty('profilePicture')) {
+          $scope.toUser.pic = userData.data.profilePicture;
+        }
+    });
+
+    FirebaseInteraction.getUserDataById($scope.user._id).then(function(userData) {
+      if (userData.data.hasOwnProperty('profilePicture')) {
+        $scope.user.pic = userData.data.profilePicture;
+      }
+    });
 
 
     // Create unique users thread string
@@ -78,6 +107,8 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
     $scope.$on('$ionicView.leave', function() {
       cordova.plugins.Keyboard.disableScroll(false);
       console.log('leaving UserMessages view, destroying interval');
+      // Reset isInitialViewLoad on leave
+      newMessage = false;
       // Make sure that the interval is destroyed
       if (angular.isDefined(messageCheckTimer)) {
         $interval.cancel(messageCheckTimer);
@@ -104,7 +135,9 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
         var messagesArray = [];
 
         for (var userMessage in threadMessages) {
-          messagesArray.push(threadMessages[userMessage]);
+          if (userMessage !== "personOneId" && userMessage !== "personTwoId" && userMessage !== "personOneName" && userMessage !== "personTwoName") {
+            messagesArray.push(threadMessages[userMessage]);
+          }
         }
 
         // Add messages to $scope.messages, scroll to bottom
@@ -144,13 +177,22 @@ snappy.controller('SendTextCtrl', ['$scope', '$rootScope', '$state',
       message.userId = $scope.user._id;
       // message.pic = $scope.user.picture;
 
+
+      firebase.database().ref('texts/' + threadString).update({
+          personOneId: message.toId,
+          personOneName: $scope.toUser.username,
+          personTwoId: message.userId,
+          personTwoName: message.username
+      });
+
       // Add message to firebase
       firebase.database().ref('texts/' + threadString).push({
           recipientId: message.toId,
           recipientName: $scope.toUser.username,
           senderId: message.userId,
           senderName: message.username,
-          messageText: message.text
+          messageText: message.text,
+          type: "text"
       });
 
       // Scroll page to bottom

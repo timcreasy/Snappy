@@ -1,29 +1,65 @@
 <ion-view view-title="Snappy">
   <ion-nav-buttons side="right">
-    <button class="button" ng-click="logout()">
+    <!-- <button id="logoutButton" class="button" ng-click="logout()">
+      Log Out
+    </button> -->
+    <button id="menuButton" ng-click="openPopover($event)">
+      <i id="menuIcon" class="icon ion-navicon-round"></i>
+    </button>
+  </ion-nav-buttons>
+  <!-- <ion-nav-buttons side="right">
+    <button id="logoutButton" class="button" ng-click="logout()">
       Log Out
     </button>
   </ion-nav-buttons>
   <ion-nav-buttons side="left">
-    <button class="button" ng-click="mapit()">
+    <button id="mapButton" class="button" ng-click="mapit()">
       Snaptivity
     </button>
-  </ion-nav-buttons>
+  </ion-nav-buttons> -->
     <ion-content id="homeView" class="has-footer">
 
       <div class="list">
-        <div ng-repeat="image in collection">
-          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)"class="item item-thumbnail-left">
-            <img class="images" ng-src="data:image/jpeg;base64,{{image.image}}">
-            <h1>{{image.senderName}}</h1>
+        <div class="messageTiles" ng-repeat="image in collection | orderObjectBy: 'timeMarker' : true">
+          <!-- <div class="snapBox"></div> -->
+          <div on-hold="imageHeld(image)" on-release="imageReleased()" on-swipe-right="sendTextSwipe(image)" ng-class="image.disabled ? 'disabledSnap item item-icon-left snap' : 'activeSnap item item-icon-left snap'">
+            <i ng-show="selectedImage === image && !image.disabled" class="icon">{{counter}}</i>
+            <i ng-hide="selectedImage === image && !image.disabled" class="icon ion-image"></i>
+            <h2 class="messageNameDislay">{{image.senderName}}</h2>
           </div>
         </div>
+        <div class="messageTiles" ng-repeat="text in texts">
+          <div on-swipe-right="sendTextSwipe(text)" ng-class="'activeSnap item item-icon-left snap'">
+            <i class="icon ion-android-chat"></i>
+            <h2 class="messageNameDislay">{{text.senderName}}</h2>
+          </div>
+        </div>
+        <div class="messageTiles" ng-repeat="request in friendRequests">
+          <div ng-hide="request.ignored === true" on-swipe-right="sendTextToNonFriend(request)" ng-click="viewFriendRequest(request)" ng-class="'activeSnap item item-icon-left snap'">
+            <i class="icon ion-person-add"></i>
+            <h2 class="messageNameDislay">{{request.fullName}}</h2>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div class="list">
+        <div class="messageTiles" ng-repeat="text in texts">
+          <div on-swipe-right="sendTextSwipe(text)" ng-class="'activeSnap item item-icon-left snap'">
+            <i class="icon ion-android-chat"></i>
+            <h2 class="messageNameDislay">{{text.senderName}}</h2>
+          </div>
+        </div>
+      </div> -->
+
+      <div id="noMessagesTag" class="verticalcenter" ng-show="collection === null">
+        <h4>Nothing to see here...</h4>
       </div>
 
     </ion-content>
     <ion-footer-bar align-title="center" class="bar-stable" id="snapFooter">
         <div class="title" id="snapButton">
-          <i ng-click="picture()" class="icon ion-ios-camera"></i>
+          <i id="cameraButton" on-hold="camPressed()" on-release="camReleased()" ng-click="picture()" class="icon ion-ios-camera"></i>
         </div>
       </ion-footer-bar>
 </ion-view>

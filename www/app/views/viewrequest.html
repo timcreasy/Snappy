@@ -1,0 +1,16 @@
+<ion-view view-title="New Friend">
+  <ion-nav-buttons side="left">
+    <button class="button" ng-click="goHome()">
+      Home
+    </button>
+  </ion-nav-buttons>
+  <ion-content scroll="false">
+    <div id="friendRequestContainer">
+      <img id="friendRequestDisplay" class="center" ng-src="{{requestedFriend.profilePicture && requestedFriend.profilePicture || 'img/NoUser.png'}}">
+      <h3 id="friendRequestNameDisplay" class="center">{{requestedFriend.fullName}}</h3>
+      <h5 id="friendRequestEmailDisplay" class="center">{{requestedFriend.email}}</h5>
+      <button id="addFriendButton" ng-click="addFriendPressed(requestedFriend)" class="button button-dark">Add Friend</button>
+      <button id="ignoreFriendButton" ng-click="ignoreFriendPressed(requestedFriend)" class="button button-dark">Ignore</button>
+    </div>
+  </ion-content>
+</ion-view>

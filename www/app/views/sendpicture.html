@@ -1,16 +1,32 @@
 <ion-view view-title="Send Picture">
   <ion-nav-buttons side="left">
-    <button class="button" ng-click="goHome()">
+    <button id="homeMapButton" class="button" ng-click="goHome()">
       Home
     </button>
   </ion-nav-buttons>
-  <ion-content id="sendSnapView">
+  <ion-content scroll="false" id="sendSnapView">
 
-    <div id="imageOutput">
-      <img id="imageToSend" class="images" ng-src="data:image/jpeg;base64,{{imageToSend.image}}">
+    <!-- <canvas id='drawCanvas' width='375' height='490' style='border: 1px solid black;'></canvas> -->
+    <canvas id='drawCanvas' width='375' height='400'></canvas>
+
+    <div id="penSizeRange" class="item range range-positive center">
+      <i id="penSizeSmall" class="icon ion-paintbrush"></i>
+      <input id="penSizeSlider" type="range" min="0.5" step='1' max="7" name="penSize" ng-model="pen.size" ng-change="setPenSize()">
+      <i id="penSizeLarge" class="icon ion-paintbrush"></i>
     </div>
 
-    <center>
+    <!-- <div id="penSizeRange" class="item range range-balanced range-background-dark center">
+        <i id="penSizeSmall" class="icon ion-paintbrush"></i>
+            <input type="range" name="volume" min="0" max="100" ng-model="RV">
+        <i id="penSizeLarge" class="icon ion-paintbrush"></i>
+      </div> -->
+
+    <div class="center">
+      <button id="penColorButton" class="button icon ion-edit" color-picker ng-model="testColors.first" modal-title="Choose a color" color-box="{{testColors.first}}"></button>
+      <button class="button button-energized" ng-click='clearCanvas()'>Clear</button>
+    </div>
+
+    <center id="recipientButton">
       <multiselect
         header-text="Select Recipients"
         items="userList"
@@ -24,6 +40,6 @@
         value-changed="onValueChanged(value)">
       </multiselect>
     </center>
-    
+
   </ion-content>
 </ion-view>

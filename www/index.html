@@ -6,12 +6,13 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *"> -->
     <title>Snappy</title>
 
-    <link href="css/ionic.app.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/ionic.app.css">
+    <link rel="stylesheet" href="lib/ionic-color-picker/dist/ionic-color-picker.css">
 
   </head>
   <body ng-app="snappy">
 
-    <ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-stable navBar">
     </ion-nav-bar>
 
     <ion-nav-view>
@@ -25,6 +26,11 @@
     <script src="lib/firebase/firebase.js"></script>
     <script src="lib/ionic-multiselect/dist/ionic-multiselect.min.js"></script>
     <script src="lib/angularfire/dist/angularfire.min.js"></script>
+    <script src="lib/signature_pad/signature_pad.js"></script>
+    <script src="lib/ionic-color-picker/dist/ionic-color-picker-tinycolor.js"></script>
+    <script src="app/services/uuid.js"></script>
+    <script src="lib/angular-messages/angular-messages.js"></script>
+    <script src="lib/angular-order-object-by/src/ng-order-object-by.js"></script>
 
     <!-- Application -->
     <script src="app/app.js"></script>
@@ -47,6 +53,8 @@
     <script src="app/services/TextMessageService.js"></script>
     <script src="app/services/PictureMarkers.js"></script>
     <script src="app/services/MapFactory.js"></script>
+    <script src="app/services/Timestamp.js"></script>
+    <script src="app/services/FriendRequested.js"></script>
 
     <!-- Controllers -->
     <script src="app/controllers/LoadingCtrl.js"></script>
@@ -56,6 +64,9 @@
     <script src="app/controllers/SendPictureCtrl.js"></script>
     <script src="app/controllers/SendTextCtrl.js"></script>
     <script src="app/controllers/SnapMapCtrl.js"></script>
+    <script src="app/controllers/AddFriendCtrl.js"></script>
+    <script src="app/controllers/ViewRequestCtrl.js"></script>
+    <script src="app/controllers/ViewFriendsCtrl.js"></script>
 
   </body>
 </html>
