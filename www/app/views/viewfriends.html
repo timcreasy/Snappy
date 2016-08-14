@@ -1,0 +1,25 @@
+<ion-view view-title="All Friends">
+  <ion-nav-buttons side="left">
+    <button class="button" ng-click="goHome()">
+      Home
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="addFriendsPressed()">
+      Add Friends
+    </button>
+  </ion-nav-buttons>
+  <ion-content>
+    <div class="list">
+      <div class="messageTiles" ng-repeat="friend in friendsList">
+        <div class="activeSnap item item-thumbnail-left item-button-right">
+          <img class="images" ng-src="{{friend.profilePicture && friend.profilePicture || 'img/NoUser.png'}}">
+          <h2 class="viewFriendsName">{{friend.fullName}}</h2>
+          <button ng-click="unfriendPressed(friend)" class="button button-assertive unfriendButton">
+            Unfriend
+          </button>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

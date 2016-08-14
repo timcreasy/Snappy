@@ -61,6 +61,10 @@ snappy.config(function($stateProvider, $urlRouterProvider, FirebaseCreds, $ionic
       url:'/viewrequest',
       templateUrl: 'app/views/viewrequest.html',
       controller: 'ViewRequestCtrl'
+  }).state('viewfriends',{
+      url:'/viewfriends',
+      templateUrl: 'app/views/viewfriends.html',
+      controller: 'ViewFriendsCtrl'
   });
   $urlRouterProvider.otherwise('/');
 });

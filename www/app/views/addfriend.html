@@ -4,6 +4,11 @@
       Home
     </button>
   </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button" ng-click="viewFriendsPressed()">
+      View Friends
+    </button>
+  </ion-nav-buttons>
   <ion-content scroll="false">
     <label class="item item-input">
       <form ng-submit="searchFriends(this.searchString)">

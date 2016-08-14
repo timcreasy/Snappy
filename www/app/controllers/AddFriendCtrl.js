@@ -55,7 +55,7 @@ snappy.controller('AddFriendCtrl',
       // Remove disabled property if active
       document.getElementById("friendRequestButton").disabled = false;
 
-      // cordova.plugins.Keyboard.close();
+      cordova.plugins.Keyboard.close();
 
       // Loop through and see if user exists and match was found
       for (var key in userList) {
@@ -143,6 +143,10 @@ snappy.controller('AddFriendCtrl',
         isHtml:  true
       });
     }
+
+    $scope.viewFriendsPressed = function() {
+      $state.go('viewfriends');
+    };
 
 
 });

@@ -151,7 +151,16 @@ snappy.controller('HomeCtrl', function($scope, $ionicPlatform, $cordovaCamera, $
 
     // Add Friend button pressed
     $scope.addFriendPressed = function() {
-      $state.go('addfriend');
+        $state.go('addfriend');
+        window.plugins.nativepagetransitions.slide(
+          {"direction": "left"},
+          function (msg) {console.log("success: " + msg)}, // called when the animation has finished
+          function (msg) {alert("error: " + msg)} // called in case you pass in weird values
+        );
+    }
+
+    $scope.viewFriendsPressed = function() {
+      $state.go('viewfriends');
       window.plugins.nativepagetransitions.slide(
         {"direction": "left"},
         function (msg) {console.log("success: " + msg)}, // called when the animation has finished
